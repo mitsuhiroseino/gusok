@@ -1,6 +1,6 @@
-import clone from 'lodash/clone';
-import isPlainObject from 'lodash/isPlainObject';
-import mapValues from 'lodash/mapValues';
+import clone from 'lodash-es/clone';
+import isPlainObject from 'lodash-es/isPlainObject';
+import mapValues from 'lodash-es/mapValues';
 
 /**
  * オブジェクト直下の値、配列直下の値、値の編集をする
@@ -22,11 +22,15 @@ export default function editTypedValue<T = any>(
     // オブジェクトの場合
     if (isTargetType(value)) {
       // valueが編集にふさわしい値の場合はオブジェクト配下の編集にふさわしい値を対象にして編集する
-      return mapValues((item) => (isTargetType(item) ? editFn(item, value) : item));
+      return mapValues((item) =>
+        isTargetType(item) ? editFn(item, value) : item,
+      );
     } else if (isPlainObject(value)) {
       // valueがオブジェクトの場合はオブジェクト配下の同じキーの値を対象にして編集する
       return mapValues((item, key) =>
-        isTargetType(item) && isTargetType(value[key]) ? editFn(item, value[key]) : item,
+        isTargetType(item) && isTargetType(value[key])
+          ? editFn(item, value[key])
+          : item,
       );
     } else {
       return { ...(targetValue as any) };
@@ -39,7 +43,9 @@ export default function editTypedValue<T = any>(
     } else if (Array.isArray(value)) {
       // valueが配列の場合は配列配下の同じインデックスの値を対象にして編集する
       const len = value.length;
-      return targetValue.map((item, i) => (i < len ? editFn(item, value[i]) : item));
+      return targetValue.map((item, i) =>
+        i < len ? editFn(item, value[i]) : item,
+      );
     } else {
       // valueが配列以外の値の場合は新しい配列にして返す
       return targetValue.concat([]);

@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash-es/isPlainObject';
 import { FlattenOptions } from './types';
 
 /**
@@ -6,12 +6,22 @@ import { FlattenOptions } from './types';
  * @param object
  * @param options
  */
-export default function flatten(object: any, options: FlattenOptions = {}): any {
+export default function flatten(
+  object: any,
+  options: FlattenOptions = {},
+): any {
   return _flatten(object, options);
 }
 
-function _flatten(object: any, options: FlattenOptions, parentPath?: string): any {
-  if (isPlainObject(object) || (Array.isArray(object) && !options.ignoreArray)) {
+function _flatten(
+  object: any,
+  options: FlattenOptions,
+  parentPath?: string,
+): any {
+  if (
+    isPlainObject(object) ||
+    (Array.isArray(object) && !options.ignoreArray)
+  ) {
     // オブジェクトの場合は配下要素をフラットな状態に変換
     let flatObj: { [key: string]: unknown } = {},
       currentPath: string;

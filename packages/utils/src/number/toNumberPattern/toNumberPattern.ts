@@ -1,4 +1,4 @@
-import last from 'lodash/last';
+import last from 'lodash-es/last';
 import isEnclosedIn from '../../string/isEnclosedIn';
 import { Pattern, PatternInfo } from './types';
 
@@ -12,7 +12,9 @@ const REGEXP_FORMAT_TO_PATTERN = /"([^"]*)"|0|#|\.|,/g;
  * @param format フォーマット文字列
  * @returns
  */
-export default function toNumberPattern(format: string | undefined): PatternInfo | undefined {
+export default function toNumberPattern(
+  format: string | undefined,
+): PatternInfo | undefined {
   if (format == null) {
     return;
   }
@@ -22,10 +24,16 @@ export default function toNumberPattern(format: string | undefined): PatternInfo
     dp = dpIndex > -1,
     // 整数部のパターン(prefix,suffixを含む)
     intPattern = dp ? pattern.slice(0, dpIndex).reverse() : pattern.reverse(),
-    intNumLength = intPattern.filter((token) => token === '0' || token === '#').length,
+    intNumLength = intPattern.filter(
+      (token) => token === '0' || token === '#',
+    ).length,
     // 小数部のパターン(prefix,suffixを含む & 余分な'.'は除外)
-    decPattern = dp ? pattern.slice(dpIndex + 1).filter((token) => token !== '.') : [],
-    decNumLength = decPattern.filter((token) => token === '0' || token === '#').length,
+    decPattern = dp
+      ? pattern.slice(dpIndex + 1).filter((token) => token !== '.')
+      : [],
+    decNumLength = decPattern.filter(
+      (token) => token === '0' || token === '#',
+    ).length,
     // 桁区切りの有無
     ts = intPattern.includes(',');
 
@@ -53,7 +61,16 @@ export default function toNumberPattern(format: string | undefined): PatternInfo
     }
   }
 
-  return { intPattern, intNumLength, decPattern, decNumLength, dp, ts, prefix, suffix };
+  return {
+    intPattern,
+    intNumLength,
+    decPattern,
+    decNumLength,
+    dp,
+    ts,
+    prefix,
+    suffix,
+  };
 }
 
 /**

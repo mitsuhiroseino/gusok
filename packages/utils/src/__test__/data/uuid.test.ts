@@ -1,4 +1,4 @@
-import uniq from 'lodash/uniq';
+import uniq from 'lodash-es/uniq';
 import uuid from 'src/data/uuid';
 
 describe('uuid', () => {

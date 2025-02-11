@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
-import isEmpty from 'lodash/isEmpty';
-import trimEnd from 'lodash/trimEnd';
+import isEmpty from 'lodash-es/isEmpty';
+import trimEnd from 'lodash-es/trimEnd';
 import { Pattern, PatternInfo } from '../toNumberPattern';
 import { FormatWithPatternOptions } from './types';
 
@@ -40,7 +40,16 @@ export default function formatWithPattern(
         : isNegative && negativeValuePattern
           ? negativeValuePattern
           : pattern,
-    { intPattern, intNumLength, decPattern, decNumLength, dp, ts, prefix, suffix } = currentPattern,
+    {
+      intPattern,
+      intNumLength,
+      decPattern,
+      decNumLength,
+      dp,
+      ts,
+      prefix,
+      suffix,
+    } = currentPattern,
     // 小数点以下の桁数
     decimalPlaces = decPattern.length,
     // 小数点以下がパターンの桁数を超えた場合の丸め設定
@@ -55,14 +64,27 @@ export default function formatWithPattern(
     decValue = dec ? trimEnd(dec, '0').split('') : [];
 
   // 整数桁
-  let formatedValue = formatNum(intValue, intPattern, intNumLength, thousandsSeparator, true).reverse().join('');
+  let formatedValue = formatNum(
+    intValue,
+    intPattern,
+    intNumLength,
+    thousandsSeparator,
+    true,
+  )
+    .reverse()
+    .join('');
 
   if (dp) {
     // 小数点
     formatedValue += decimalPoint;
     // 小数桁
     if (!isEmpty(decPattern)) {
-      formatedValue += formatNum(decValue, decPattern, decNumLength, thousandsSeparator).join('');
+      formatedValue += formatNum(
+        decValue,
+        decPattern,
+        decNumLength,
+        thousandsSeparator,
+      ).join('');
     }
   }
 

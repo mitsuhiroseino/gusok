@@ -1,7 +1,10 @@
-import invert from 'lodash/invert';
-import isEqual from 'lodash/isEqual';
+import invert from 'lodash-es/invert';
+import isEqual from 'lodash-es/isEqual';
 import asArray from '../../array/asArray';
-import replaceWithMap, { ReplacementMap, createRegExpForReplaceWidthMap } from '../replaceWithMap';
+import replaceWithMap, {
+  ReplacementMap,
+  createRegExpForReplaceWidthMap,
+} from '../replaceWithMap';
 import { ReplacementSetting, ReplacerConfig } from './types';
 
 /**
@@ -11,7 +14,13 @@ export default class Replacer {
   /**
    * マップのキャッシュ
    */
-  private _cache: { [type: string]: { map: ReplacementMap; regexp: RegExp; additionalMap?: ReplacementMap } } = {};
+  private _cache: {
+    [type: string]: {
+      map: ReplacementMap;
+      regexp: RegExp;
+      additionalMap?: ReplacementMap;
+    };
+  } = {};
 
   /**
    * 登録された順変換の全type
@@ -73,7 +82,11 @@ export default class Replacer {
    * @param additionalMap 追加のマップ
    * @returns
    */
-  replace(str: string, types: string | string[] = this._types, additionalMap?: ReplacementMap): string {
+  replace(
+    str: string,
+    types: string | string[] = this._types,
+    additionalMap?: ReplacementMap,
+  ): string {
     const { map, regexp } = this._getReplacementInfo(types, additionalMap);
     // mapを用いて置換を実行
     return replaceWithMap(str, map, regexp);
@@ -86,7 +99,10 @@ export default class Replacer {
    * @param additionalMap 追加のマップ
    * @returns
    */
-  private _getReplacementInfo(types: string | string[], additionalMap?: ReplacementMap) {
+  private _getReplacementInfo(
+    types: string | string[],
+    additionalMap?: ReplacementMap,
+  ) {
     const replacementType = asArray(types).join('|');
     const cache = this._cache[replacementType];
     if (cache && isEqual(cache.additionalMap, additionalMap)) {
@@ -103,7 +119,11 @@ export default class Replacer {
         // additionalMapを最後にマージすることで、置換対象がと既存のマップと重複していても追加分が有効になる
         mergedMap = Object.assign(mergedMap, additionalMap);
       }
-      const replacementInfo = { map: mergedMap, regexp: createRegExpForReplaceWidthMap(mergedMap), additionalMap };
+      const replacementInfo = {
+        map: mergedMap,
+        regexp: createRegExpForReplaceWidthMap(mergedMap),
+        additionalMap,
+      };
       this._cache[replacementType] = replacementInfo;
       return replacementInfo;
     }

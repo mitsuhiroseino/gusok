@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash-es/isPlainObject';
 import { RebuildOptions } from './types';
 
 /**
@@ -10,7 +10,9 @@ import { RebuildOptions } from './types';
  */
 export default function rebuild(
   source: any,
-  fn: (item: any, key: PropertyKey | any, whole: unknown) => unknown = (item: any) => item,
+  fn: (item: any, key: PropertyKey | any, whole: unknown) => unknown = (
+    item: any,
+  ) => item,
   options?: RebuildOptions,
 ): any {
   return _rebuild(source, fn, options);
@@ -26,7 +28,9 @@ export default function rebuild(
  */
 function _rebuild(
   source: any,
-  fn: (item: any, key: PropertyKey | any, whole: unknown) => unknown = (item: any) => item,
+  fn: (item: any, key: PropertyKey | any, whole: unknown) => unknown = (
+    item: any,
+  ) => item,
   options: RebuildOptions = {},
   currentLevel = 0,
 ): any {

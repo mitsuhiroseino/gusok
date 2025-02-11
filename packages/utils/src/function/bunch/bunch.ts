@@ -1,4 +1,4 @@
-import debounce from 'lodash/debounce';
+import debounce from 'lodash-es/debounce';
 
 /**
  * debounceで実際に実行されるまでに渡された引数を纏めて対象の関数に渡して実行する関数を作成する

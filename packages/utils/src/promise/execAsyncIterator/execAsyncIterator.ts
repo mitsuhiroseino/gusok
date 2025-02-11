@@ -1,4 +1,4 @@
-import remove from 'lodash/remove';
+import remove from 'lodash-es/remove';
 
 /**
  * 非同期イテレーターを指定の数分並列実行する

@@ -1,4 +1,4 @@
-import findLastIndex from 'lodash/findLastIndex';
+import findLastIndex from 'lodash-es/findLastIndex';
 import { GetItemByRatioOptions, GetItemByRatioResult } from './types';
 
 const CALC_SUM = (frame1: any, frame2: any) => frame1 + frame2,
@@ -47,7 +47,10 @@ export default function getItemByRatio(
  * @param ratio
  * @returns
  */
-export function getFrameWithIndex(frames: any[], ratio: number): GetItemByRatioResult {
+export function getFrameWithIndex(
+  frames: any[],
+  ratio: number,
+): GetItemByRatioResult {
   //   0    1    2    3    4    5    6    7    8    9    10
   //   +----+----+----+-#--+----+-x--+----+----+-*--+----+
   //   0                        ^                        1
@@ -69,13 +72,20 @@ export function interpolateFrameWithIndex(
   ratio: number,
   options: GetItemByRatioOptions,
 ): GetItemByRatioResult {
-  const { calcSum = CALC_SUM, calcDifference = CALC_DIFFERENCE, calcProduct = CALC_PRODUCT } = options;
+  const {
+    calcSum = CALC_SUM,
+    calcDifference = CALC_DIFFERENCE,
+    calcProduct = CALC_PRODUCT,
+  } = options;
   const maxIndex = frames.length - 1;
   //   0    1    2    3    4    5    6    7    8    9    10
   //   +----+----+----+-#--+----+-x--+----+----+-*--+----+
   //   0                        ^                        1
   //                            ratio=0.54を下回るこの要素を取得
-  const startIndex = findLastIndex(frames, (frame, index) => index / maxIndex <= ratio);
+  const startIndex = findLastIndex(
+    frames,
+    (frame, index) => index / maxIndex <= ratio,
+  );
   const startFrame = frames[startIndex];
   //   0    1    2    3    4    5    6    7    8    9    10
   //   +----+----+----+-#--+----+-x--+----+----+-*--+----+

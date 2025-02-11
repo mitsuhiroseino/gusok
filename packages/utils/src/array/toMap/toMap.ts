@@ -1,4 +1,4 @@
-import _set from 'lodash/set';
+import _set from 'lodash-es/set';
 import asArray from '../asArray';
 
 /**
@@ -16,7 +16,9 @@ export default function toMap<I>(
   keySeparator: string = '.',
 ): { [key: string]: I } {
   const propNames = asArray(properties),
-    set = flat ? (object, keys, value) => (object[keys.join(keySeparator)] = value) : _set;
+    set = flat
+      ? (object, keys, value) => (object[keys.join(keySeparator)] = value)
+      : _set;
   return array.reduce((result, item) => {
     // 指定のプロパティの値を配列に取得
     const keyArray = propNames.map((propName) => {

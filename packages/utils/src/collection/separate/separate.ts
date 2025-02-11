@@ -1,5 +1,5 @@
-import isPlainObject from 'lodash/isPlainObject';
-import set from 'lodash/set';
+import isPlainObject from 'lodash-es/isPlainObject';
+import set from 'lodash-es/set';
 import clean from '../clean';
 import { SeparateOptions } from './types';
 
@@ -9,7 +9,9 @@ import { SeparateOptions } from './types';
  * @param fn 判定用関数
  * @param options オプション
  */
-export default function separate<S = unknown[] | { [key: PropertyKey]: unknown }>(
+export default function separate<
+  S = unknown[] | { [key: PropertyKey]: unknown },
+>(
   source: S,
   fn: (
     value: any,
@@ -24,11 +26,18 @@ export default function separate<S = unknown[] | { [key: PropertyKey]: unknown }
   // 分類結果
   const result = {},
     // 判定&結果取得用コールバック
-    callback = (value: any, key: PropertyKey, parent: any, parentPath: PropertyKey[], level: number) => {
+    callback = (
+      value: any,
+      key: PropertyKey,
+      parent: any,
+      parentPath: PropertyKey[],
+      level: number,
+    ) => {
       const classification = fn(value, key, parent, parentPath, level, source);
       if (classification) {
         // 分類された場合は対象の分類に反映
-        const classifyed = result[classification] || (Array.isArray(source) ? [] : {}),
+        const classifyed =
+            result[classification] || (Array.isArray(source) ? [] : {}),
           path = parentPath.concat([key]);
         set(classifyed, path, value);
         result[classification] = classifyed;
@@ -50,7 +59,13 @@ export default function separate<S = unknown[] | { [key: PropertyKey]: unknown }
  */
 function _separate(
   source: any,
-  callback: (value: any, key: PropertyKey, parent: any, parentPath: PropertyKey[], level: number) => boolean,
+  callback: (
+    value: any,
+    key: PropertyKey,
+    parent: any,
+    parentPath: PropertyKey[],
+    level: number,
+  ) => boolean,
   options: SeparateOptions,
   path: PropertyKey[] = [],
 ): void {
@@ -83,7 +98,13 @@ function _separate(
  */
 function _classifyValue(
   value: any,
-  callback: (value: any, key: PropertyKey, parent: any, parentPath: PropertyKey[], level: number) => boolean,
+  callback: (
+    value: any,
+    key: PropertyKey,
+    parent: any,
+    parentPath: PropertyKey[],
+    level: number,
+  ) => boolean,
   options: SeparateOptions,
   key: PropertyKey,
   parentPath: PropertyKey[],
@@ -93,7 +114,11 @@ function _classifyValue(
     currentLevel = parentPath.length,
     isObject = isPlainObject(value),
     isArray = Array.isArray(value);
-  if ((!isObject && !isArray) || (isObject && includeObject) || (isArray && includeArray)) {
+  if (
+    (!isObject && !isArray) ||
+    (isObject && includeObject) ||
+    (isArray && includeArray)
+  ) {
     // object以外またはobjectも分類の対象の場合は判定用関数を実行
     if (callback(value, key, parent, parentPath, currentLevel)) {
       // 分類されたため当値の処理は終了

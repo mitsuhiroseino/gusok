@@ -1,10 +1,10 @@
-import isBoolean from 'lodash/isBoolean';
-import isDate from 'lodash/isDate';
-import isFunction from 'lodash/isFunction';
-import isNumber from 'lodash/isNumber';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
-import size from 'lodash/size';
+import isBoolean from 'lodash-es/isBoolean';
+import isDate from 'lodash-es/isDate';
+import isFunction from 'lodash-es/isFunction';
+import isNumber from 'lodash-es/isNumber';
+import isPlainObject from 'lodash-es/isPlainObject';
+import isString from 'lodash-es/isString';
+import size from 'lodash-es/size';
 import { DIFFERENCE_TYPE, NO_VALUE, VALUE_TYPE } from './constants';
 import { CompareResult, DifferenceType, ValueType } from './types';
 
@@ -41,7 +41,10 @@ type UnknownArray = unknown[];
  * @param value2 比較対象2
  * @return 比較結果
  */
-export default function compare(value1: unknown, value2: unknown): CompareResult {
+export default function compare(
+  value1: unknown,
+  value2: unknown,
+): CompareResult {
   let difference: DifferenceType = DIFFERENCE_TYPE.NO_DIFFERENCE,
     children: CompareResult[] | null = null;
   const type1: ValueType = typeOf(value1),
@@ -107,7 +110,9 @@ export default function compare(value1: unknown, value2: unknown): CompareResult
     compareResult.children = children;
     if (
       compareResult.difference === DIFFERENCE_TYPE.NO_DIFFERENCE &&
-      children.some((child) => child.difference !== DIFFERENCE_TYPE.NO_DIFFERENCE)
+      children.some(
+        (child) => child.difference !== DIFFERENCE_TYPE.NO_DIFFERENCE,
+      )
     ) {
       // 子要素に不一致あり
       compareResult.difference = DIFFERENCE_TYPE.CHILDREN;
@@ -125,7 +130,10 @@ export default function compare(value1: unknown, value2: unknown): CompareResult
  * @param object2 比較対象2
  * @return 比較結果
  */
-function _compareObject(object1: UnknownObject, object2: UnknownObject): CompareResult[] {
+function _compareObject(
+  object1: UnknownObject,
+  object2: UnknownObject,
+): CompareResult[] {
   const results: CompareResult[] = [],
     rest1 = { ...object2 };
 
@@ -166,7 +174,10 @@ function _compareObject(object1: UnknownObject, object2: UnknownObject): Compare
  * @param array2 比較対象2
  * @return 比較結果
  */
-function _compareArray(array1: UnknownArray, array2: UnknownArray): CompareResult[] {
+function _compareArray(
+  array1: UnknownArray,
+  array2: UnknownArray,
+): CompareResult[] {
   const results: CompareResult[] = [],
     length1 = array1.length,
     length2 = array2.length;

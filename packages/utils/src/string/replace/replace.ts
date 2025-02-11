@@ -1,6 +1,6 @@
-import isFunction from 'lodash/isFunction';
-import isRegExp from 'lodash/isRegExp';
-import isString from 'lodash/isString';
+import isFunction from 'lodash-es/isFunction';
+import isRegExp from 'lodash-es/isRegExp';
+import isString from 'lodash-es/isString';
 import { DynamicPattern, FlexiblePattern, ReplaceOptions } from './types';
 
 /**

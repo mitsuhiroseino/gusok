@@ -1,9 +1,9 @@
-import isBoolean from 'lodash/isBoolean';
-import isDate from 'lodash/isDate';
-import isFunction from 'lodash/isFunction';
-import isNumber from 'lodash/isNumber';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
+import isBoolean from 'lodash-es/isBoolean';
+import isDate from 'lodash-es/isDate';
+import isFunction from 'lodash-es/isFunction';
+import isNumber from 'lodash-es/isNumber';
+import isPlainObject from 'lodash-es/isPlainObject';
+import isString from 'lodash-es/isString';
 import formatDate from '../../date/format';
 import isIterable from '../../lang/isIterable';
 import { ToLiteralInternalOptions, ToLiteralOptions } from './types';
@@ -24,8 +24,12 @@ const OMIT = Symbol('OMIT');
  * @param target 文字列化対象
  * @param options オプション
  */
-export default function toLiteral(target: unknown, options: ToLiteralOptions = {}): string {
-  const { formatting, indent, lineSeparator, separatorSpace, ...rest } = options,
+export default function toLiteral(
+  target: unknown,
+  options: ToLiteralOptions = {},
+): string {
+  const { formatting, indent, lineSeparator, separatorSpace, ...rest } =
+      options,
     opts = rest as ToLiteralInternalOptions;
 
   let defaultIndent, defaultLineSeparator, defaultSeparatorSpace;
@@ -39,15 +43,21 @@ export default function toLiteral(target: unknown, options: ToLiteralOptions = {
     defaultSeparatorSpace = '';
   }
   opts.indent = isNumber(indent) ? ' '.repeat(indent) : defaultIndent;
-  opts.lineSeparator = lineSeparator != null ? lineSeparator : defaultLineSeparator;
-  opts.separatorSpace = isNumber(separatorSpace) ? ' '.repeat(separatorSpace) : defaultSeparatorSpace;
+  opts.lineSeparator =
+    lineSeparator != null ? lineSeparator : defaultLineSeparator;
+  opts.separatorSpace = isNumber(separatorSpace)
+    ? ' '.repeat(separatorSpace)
+    : defaultSeparatorSpace;
   opts.level = 0;
 
   const literal = _toLiteral(target, opts);
   return isString(literal) ? literal : '';
 }
 
-function _toLiteral(target: unknown, options: ToLiteralInternalOptions): string | Symbol {
+function _toLiteral(
+  target: unknown,
+  options: ToLiteralInternalOptions,
+): string | Symbol {
   let str: string | Symbol;
 
   const { indent, level } = options,
@@ -221,8 +231,18 @@ function _toArrayLiteral(array: unknown[], options: ToLiteralInternalOptions) {
  * @param options
  * @returns
  */
-function _toObjectLiteral(object: { [key: string]: unknown }, options: ToLiteralInternalOptions) {
-  const { baseIndent, indent, lineSeparator, separatorSpace, level, sortByKey } = options;
+function _toObjectLiteral(
+  object: { [key: string]: unknown },
+  options: ToLiteralInternalOptions,
+) {
+  const {
+    baseIndent,
+    indent,
+    lineSeparator,
+    separatorSpace,
+    level,
+    sortByKey,
+  } = options;
   // オブジェクトの場合
   const rawKeys = Object.keys(object),
     keys = sortByKey ? rawKeys.sort((a, b) => (a > b ? 1 : -1)) : rawKeys,

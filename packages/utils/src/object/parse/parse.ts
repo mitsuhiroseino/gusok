@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash-es/isPlainObject';
 import { ParseOptions } from './types';
 
 /**
@@ -7,7 +7,10 @@ import { ParseOptions } from './types';
  * @param options オプション
  * @returns
  */
-export default function parse(value: any, options: ParseOptions = {}): any | null {
+export default function parse(
+  value: any,
+  options: ParseOptions = {},
+): any | null {
   if (isPlainObject(value)) {
     return value;
   }

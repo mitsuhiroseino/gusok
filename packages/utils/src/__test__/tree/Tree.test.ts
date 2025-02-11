@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash-es/cloneDeep';
 import Tree from 'src/tree/Tree';
 import { ITEMS, getLoader } from './constants';
 import toEqualNodesWith from './toEqualNodesWith';

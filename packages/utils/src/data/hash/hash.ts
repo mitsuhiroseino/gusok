@@ -1,10 +1,10 @@
-import isBoolean from 'lodash/isBoolean';
-import isDate from 'lodash/isDate';
-import isFunction from 'lodash/isFunction';
-import isNumber from 'lodash/isNumber';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
-import map from 'lodash/map';
+import isBoolean from 'lodash-es/isBoolean';
+import isDate from 'lodash-es/isDate';
+import isFunction from 'lodash-es/isFunction';
+import isNumber from 'lodash-es/isNumber';
+import isPlainObject from 'lodash-es/isPlainObject';
+import isString from 'lodash-es/isString';
+import map from 'lodash-es/map';
 
 // TODO: blueimp-md5で使用しているstring-widthのバージョンではcjsのソースが無い為、jestで動作させることができない
 // TODO: transformIgnorePatternsに指定してもうまく動作しない
@@ -37,7 +37,9 @@ function _toString(value: any): any {
     // [key, value]の配列形式に変換
     return _toTypeValueString(
       'object',
-      map(value, (item, key) => [key, _toString(item)]).sort((item1, item2) => (item1[0] > item2[0] ? 1 : -1)),
+      map(value, (item, key) => [key, _toString(item)]).sort((item1, item2) =>
+        item1[0] > item2[0] ? 1 : -1,
+      ),
     );
   } else if (isDate(value)) {
     // Date

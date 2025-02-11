@@ -1,4 +1,4 @@
-import isFunction from 'lodash/isFunction';
+import isFunction from 'lodash-es/isFunction';
 import asArray from '../asArray';
 import { GetDepsFn, GetIdFn, SortDependenciesOptions } from './types';
 
@@ -9,12 +9,35 @@ import { GetDepsFn, GetIdFn, SortDependenciesOptions } from './types';
  * @param options オプション
  * @returns 新しい配列
  */
-export default function sortDependencies<I>(array: I[], options: SortDependenciesOptions<I> = {}): I[] {
-  const { idProp = 0, depsProp = 1, depsIdProp = idProp, ignoreNoSubstance, isTree, desc } = options;
-  const getId: GetIdFn<I> = isFunction(idProp) ? idProp : (item: I) => item[idProp];
-  const getDeps: GetDepsFn<I> = isFunction(depsProp) ? depsProp : (item: I) => item[depsProp];
-  const getDepId: GetIdFn<I> = isFunction(depsIdProp) ? depsIdProp : (item: I) => item[depsIdProp];
-  const itemsMap = getUniqItems(new Map<unknown, I>(), array, getId, getDeps, getDepId, isTree);
+export default function sortDependencies<I>(
+  array: I[],
+  options: SortDependenciesOptions<I> = {},
+): I[] {
+  const {
+    idProp = 0,
+    depsProp = 1,
+    depsIdProp = idProp,
+    ignoreNoSubstance,
+    isTree,
+    desc,
+  } = options;
+  const getId: GetIdFn<I> = isFunction(idProp)
+    ? idProp
+    : (item: I) => item[idProp];
+  const getDeps: GetDepsFn<I> = isFunction(depsProp)
+    ? depsProp
+    : (item: I) => item[depsProp];
+  const getDepId: GetIdFn<I> = isFunction(depsIdProp)
+    ? depsIdProp
+    : (item: I) => item[depsIdProp];
+  const itemsMap = getUniqItems(
+    new Map<unknown, I>(),
+    array,
+    getId,
+    getDeps,
+    getDepId,
+    isTree,
+  );
 
   const sorted = sort(itemsMap, getId, getDeps, getDepId, ignoreNoSubstance);
 
@@ -54,7 +77,12 @@ function getUniqItems<I>(
  * @param getDeps
  * @returns
  */
-function _getUniqItems<I>(results: Map<unknown, I>, items: I[], getDepId: GetIdFn<I>, getDeps: GetDepsFn<I>) {
+function _getUniqItems<I>(
+  results: Map<unknown, I>,
+  items: I[],
+  getDepId: GetIdFn<I>,
+  getDeps: GetDepsFn<I>,
+) {
   for (const item of items) {
     const id = getDepId(item);
     results.set(id, item);
@@ -84,7 +112,13 @@ function sort<I>(
     visited = {},
     dependenciesMap = makeDependenciesMap(itemsMap, getDeps, getDepId),
     reverseLookupMap = makeReverseLookupMap(distinctArray, getId),
-    visit = createVisit(itemsMap, dependenciesMap, reverseLookupMap, getId, ignoreNoSubstance);
+    visit = createVisit(
+      itemsMap,
+      dependenciesMap,
+      reverseLookupMap,
+      getId,
+      ignoreNoSubstance,
+    );
 
   for (let i = 0; i < length; i++) {
     if (!visited[i]) {
@@ -133,7 +167,13 @@ function createVisit<I>(
       // 依存先のvisitedの更新用にdistinctArrayn内でのindexも渡す
       const distinctArrayIndex = reverseLookupMap.get(dependencyId);
       if (distinctArrayIndex != null) {
-        visit(itemsMap.get(dependencyId), distinctArrayIndex, dependents, sorted, visited);
+        visit(
+          itemsMap.get(dependencyId),
+          distinctArrayIndex,
+          dependents,
+          sorted,
+          visited,
+        );
       } else if (!ignoreNoSubstance) {
         throw new Error('No substance: ' + dependencyId);
       }
@@ -181,7 +221,10 @@ function makeDependenciesMap<I>(
  * @param distinctArray
  * @returns
  */
-function makeReverseLookupMap<I>(distinctArray: I[], getId: GetIdFn<I>): Map<unknown, number> {
+function makeReverseLookupMap<I>(
+  distinctArray: I[],
+  getId: GetIdFn<I>,
+): Map<unknown, number> {
   return distinctArray.reduce((map, item, index) => {
     map.set(getId(item), index);
     return map;

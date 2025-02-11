@@ -1,7 +1,7 @@
 import Big from 'big.js';
-import isFinite from 'lodash/isFinite';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
+import isFinite from 'lodash-es/isFinite';
+import isNumber from 'lodash-es/isNumber';
+import isString from 'lodash-es/isString';
 import { ToDecimalStringOptions } from './types';
 
 /**
@@ -34,7 +34,9 @@ const DEFAULT_NE = Big.NE;
  */
 const E = 1000;
 
-const toReturnValue = (value: Big | number | string | null | undefined): string | null => {
+const toReturnValue = (
+  value: Big | number | string | null | undefined,
+): string | null => {
   if (isNumber(value)) {
     value = new Big(value);
   }
@@ -97,7 +99,10 @@ export default function toDecimalString(
       } else if (isNegative(min) && value === '-') {
         // 負数が入力可能な場合
         return value;
-      } else if ((precision == null || 0 < precision) && INTERACTIVE_PRECISION_LIMITATION.test(value)) {
+      } else if (
+        (precision == null || 0 < precision) &&
+        INTERACTIVE_PRECISION_LIMITATION.test(value)
+      ) {
         // 小数の入力が可能な場合
         return value;
       }

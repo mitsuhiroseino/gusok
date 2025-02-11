@@ -1,5 +1,5 @@
-import isString from 'lodash/isString';
-import stubTrue from 'lodash/stubTrue';
+import isString from 'lodash-es/isString';
+import stubTrue from 'lodash-es/stubTrue';
 import standardize from '../../string/standardize';
 import hasOwnProperty from '../hasOwnProperty';
 import { GenericRecord } from '../types';
@@ -17,7 +17,9 @@ export default function createInsensitiveObject<T extends GenericRecord>(
   options: CreateInsensitiveRecordOptions<T> = {},
 ): InsensitiveRecord<T> {
   const { target = {} as T, ownProperty, ...standardizeOptions } = options;
-  const isTargetProperty = ownProperty ? (target: T, key: PropertyKey) => hasOwnProperty(target, key) : stubTrue;
+  const isTargetProperty = ownProperty
+    ? (target: T, key: PropertyKey) => hasOwnProperty(target, key)
+    : stubTrue;
   const standardizedObject = {} as GenericRecord;
 
   // オリジナルのキーと標準化されたキーのマッピング
@@ -92,7 +94,11 @@ export default function createInsensitiveObject<T extends GenericRecord>(
       return Reflect.getOwnPropertyDescriptor(target, getKey(target, key));
     },
     // プロパティの定義
-    defineProperty(target: T, key: string | symbol, attributes: PropertyDescriptor) {
+    defineProperty(
+      target: T,
+      key: string | symbol,
+      attributes: PropertyDescriptor,
+    ) {
       return Reflect.defineProperty(target, getKey(target, key), attributes);
     },
   });

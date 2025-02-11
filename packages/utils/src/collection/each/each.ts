@@ -1,5 +1,5 @@
-import isPlainObject from 'lodash/isPlainObject';
-import toArray from 'lodash/toArray';
+import isPlainObject from 'lodash-es/isPlainObject';
+import toArray from 'lodash-es/toArray';
 import isIterable from '../../lang/isIterable';
 
 /**
@@ -9,7 +9,10 @@ import isIterable from '../../lang/isIterable';
  * @param items
  * @param fn
  */
-export default function each(items: any, fn: (item: unknown, key?: PropertyKey | any, items?: any) => any | void): any {
+export default function each(
+  items: any,
+  fn: (item: unknown, key?: PropertyKey | any, items?: any) => any | void,
+): any {
   if (isIterable(items)) {
     items = toArray(items);
   }

@@ -1,5 +1,5 @@
-import get from 'lodash/get';
-import has from 'lodash/has';
+import get from 'lodash-es/get';
+import has from 'lodash-es/has';
 import extractTokens from '../extractTokens';
 import replaceAll from '../replaceAll';
 import { FormatOptions } from './types';
@@ -10,7 +10,10 @@ import { FormatOptions } from './types';
  * @param options オプション
  * @returns
  */
-export default function format(value: string, options: FormatOptions = {}): string | null {
+export default function format(
+  value: string,
+  options: FormatOptions = {},
+): string | null {
   const { params = {}, extractTokensFn = extractTokens } = options,
     tokens = extractTokensFn(value, true),
     prefix = extractTokensFn.PREFIX,

@@ -1,4 +1,4 @@
-import identity from 'lodash/identity';
+import identity from 'lodash-es/identity';
 import rebuild from '../rebuild';
 import { CleanOptions } from './types';
 

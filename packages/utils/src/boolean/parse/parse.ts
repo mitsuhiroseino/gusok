@@ -1,5 +1,5 @@
-import isBoolean from 'lodash/isBoolean';
-import isEqual from 'lodash/isEqual';
+import isBoolean from 'lodash-es/isBoolean';
+import isEqual from 'lodash-es/isEqual';
 import { ParseOptions } from './types';
 
 /**
@@ -8,12 +8,17 @@ import { ParseOptions } from './types';
  * @param options オプション
  * @returns
  */
-export default function parse(value: any, options: ParseOptions = {}): boolean | null {
+export default function parse(
+  value: any,
+  options: ParseOptions = {},
+): boolean | null {
   if (isBoolean(value)) {
     return value;
   }
   const { deepEqual, trueValues, falseValues } = options,
-    predicate = deepEqual ? (target) => isEqual(value, target) : (target) => value === target;
+    predicate = deepEqual
+      ? (target) => isEqual(value, target)
+      : (target) => value === target;
   if (trueValues) {
     return trueValues.some(predicate);
   } else if (falseValues) {

@@ -1,8 +1,8 @@
 import isMatch from 'date-fns/isMatch';
 import parseDateString from 'date-fns/parse';
-import isDate from 'lodash/isDate';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
+import isDate from 'lodash-es/isDate';
+import isNumber from 'lodash-es/isNumber';
+import isString from 'lodash-es/isString';
 import asArray from '../../array/asArray';
 import toUTC from '../toUTC';
 import { ParseOptions } from './types';
@@ -24,7 +24,10 @@ const FORMATS = [
  * @param options オプション
  * @returns
  */
-export default function parse(value: any, options: ParseOptions = {}): Date | null {
+export default function parse(
+  value: any,
+  options: ParseOptions = {},
+): Date | null {
   if (isDate(value)) {
     // 日付型
     return value;
@@ -33,11 +36,21 @@ export default function parse(value: any, options: ParseOptions = {}): Date | nu
     return new Date(value);
   } else if (isString(value)) {
     // 文字列型
-    const { formats = FORMATS, referenceDate = 0, utc, ...dateFnsOptions } = options;
+    const {
+      formats = FORMATS,
+      referenceDate = 0,
+      utc,
+      ...dateFnsOptions
+    } = options;
     for (const format of asArray(formats)) {
       if (isMatch(value, format, dateFnsOptions)) {
         // 対象のフォーマットに一致するもののみ変換
-        const date = parseDateString(value, format, referenceDate, dateFnsOptions);
+        const date = parseDateString(
+          value,
+          format,
+          referenceDate,
+          dateFnsOptions,
+        );
         if (utc) {
           return toUTC(date);
         } else {

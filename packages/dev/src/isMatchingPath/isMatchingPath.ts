@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
+import isFunction from 'lodash-es/isFunction';
+import isString from 'lodash-es/isString';
 import { posix as path } from 'path';
 import { ConditionValues } from './_types';
 import { IsMatchingPathCondition } from './types';

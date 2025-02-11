@@ -1,4 +1,4 @@
-import slice from 'lodash/slice';
+import slice from 'lodash-es/slice';
 import getGeoPointByRatio from '../getGeoPointByRatio';
 import { GetGeoPathByRatioOptions, GetGeoPathByRatioResult } from './types';
 

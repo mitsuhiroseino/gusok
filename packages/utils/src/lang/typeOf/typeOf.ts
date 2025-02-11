@@ -1,9 +1,9 @@
-import isBoolean from 'lodash/isBoolean';
-import isDate from 'lodash/isDate';
-import isFunction from 'lodash/isFunction';
-import isNumber from 'lodash/isNumber';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
+import isBoolean from 'lodash-es/isBoolean';
+import isDate from 'lodash-es/isDate';
+import isFunction from 'lodash-es/isFunction';
+import isNumber from 'lodash-es/isNumber';
+import isPlainObject from 'lodash-es/isPlainObject';
+import isString from 'lodash-es/isString';
 import { NO_VALUE, VALUE_TYPE } from './constants';
 import { ValueType } from './types';
 

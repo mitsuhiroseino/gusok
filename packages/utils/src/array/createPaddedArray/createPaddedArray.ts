@@ -1,4 +1,4 @@
-import isFunction from 'lodash/isFunction';
+import isFunction from 'lodash-es/isFunction';
 import { CreatePaddedArrayOptions } from './types';
 
 export default function createPaddedArray<T>(
@@ -19,7 +19,9 @@ export default function createPaddedArray<T>(
             yield item;
           }
           if (length < minLength) {
-            const getItem = isFunction(defaultValue) ? defaultValue : () => defaultValue;
+            const getItem = isFunction(defaultValue)
+              ? defaultValue
+              : () => defaultValue;
             for (let i = length; i < minLength; i++) {
               yield getItem();
             }

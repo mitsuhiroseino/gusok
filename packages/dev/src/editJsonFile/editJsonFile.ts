@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
-import isFunction from 'lodash/isFunction';
-import merge from 'lodash/merge';
+import isFunction from 'lodash-es/isFunction';
+import merge from 'lodash-es/merge';
 import * as path from 'path';
 import checkExistence from '../checkExistence';
 

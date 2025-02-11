@@ -1,4 +1,4 @@
-import isDate from 'lodash/isDate';
+import isDate from 'lodash-es/isDate';
 
 /**
  * 正しい日付型の値か

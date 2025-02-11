@@ -1,5 +1,5 @@
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
+import isNumber from 'lodash-es/isNumber';
+import isString from 'lodash-es/isString';
 import equals, { COMPARE_MODE, IsSameOptions } from 'src/lang/isSame';
 
 describe('equal', () => {
@@ -102,8 +102,16 @@ describe('equal', () => {
       });
 
       test('一致 (customizer)', () => {
-        const value1 = { item0: 'ABC', item1: ['DEF', 'GHI'], item2: { a: 'JKL', b: 'MNO' } },
-          value2 = { item0: 'abc', item1: ['def', 'ghi'], item2: { a: 'jkl', b: 'mno' } },
+        const value1 = {
+            item0: 'ABC',
+            item1: ['DEF', 'GHI'],
+            item2: { a: 'JKL', b: 'MNO' },
+          },
+          value2 = {
+            item0: 'abc',
+            item1: ['def', 'ghi'],
+            item2: { a: 'jkl', b: 'mno' },
+          },
           result = equals(value1, value2, {
             ...OPTIONS,
             customizer: (v0, v1) => {

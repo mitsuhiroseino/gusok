@@ -1,5 +1,5 @@
-import find from 'lodash/find';
-import slice from 'lodash/slice';
+import find from 'lodash-es/find';
+import slice from 'lodash-es/slice';
 import getAnyValue from '../../collection/getAnyValue';
 import clamp from '../../number/clamp';
 import getValidMinMax from '../../number/getValidMinMax';
@@ -8,7 +8,11 @@ import calcPathDistance from '../calcPathDistance';
 import calcPathDistanceRatio from '../calcPathDistanceRatio';
 import getDiff2D from '../getDiff2D';
 import getDistance2D from '../getDistance2D';
-import { GetPointByRatioInput, GetPointByRatioOptions, GetPointByRatioResult } from './types';
+import {
+  GetPointByRatioInput,
+  GetPointByRatioOptions,
+  GetPointByRatioResult,
+} from './types';
 
 const X_KEY = 'x',
   Y_KEY = 'y';
@@ -81,7 +85,12 @@ function calcNewPointAtRatio(
   ratio: number,
   point: GetPointByRatioInput,
   previousPoint: GetPointByRatioInput,
-  options: Required<Pick<GetPointByRatioOptions, 'getDistance' | 'xKeys' | 'yKeys' | 'xKey' | 'yKey'>> &
+  options: Required<
+    Pick<
+      GetPointByRatioOptions,
+      'getDistance' | 'xKeys' | 'yKeys' | 'xKey' | 'yKey'
+    >
+  > &
     GetPointByRatioOptions,
 ): GetPointByRatioResult {
   // 前の点から目的の点の割合の差
@@ -92,8 +101,16 @@ function calcNewPointAtRatio(
   // 前の点からの差
   const diff = getDiff2D(previousPoint, point, { xKeys, yKeys, ...rest });
   // 前の点に前の点からの差の指定割合の割合をかければ欲しい点になる
-  const x = getNormalizedValue(getAnyValue(previousPoint, xKeys) + diff.x * ratioRatio, 'X', options);
-  const y = getNormalizedValue(getAnyValue(previousPoint, yKeys) + diff.y * ratioRatio, 'Y', options);
+  const x = getNormalizedValue(
+    getAnyValue(previousPoint, xKeys) + diff.x * ratioRatio,
+    'X',
+    options,
+  );
+  const y = getNormalizedValue(
+    getAnyValue(previousPoint, yKeys) + diff.y * ratioRatio,
+    'Y',
+    options,
+  );
   const newPoint = { ...point, [xKey]: x, [yKey]: y };
   // 距離を算出
   const distanceDelta = getDistance(previousPoint, newPoint, options);
@@ -112,7 +129,11 @@ function calcNewPointAtRatio(
  * @param options
  * @returns
  */
-function getNormalizedValue(value: number, axis: string, options: GetPointByRatioOptions): number {
+function getNormalizedValue(
+  value: number,
+  axis: string,
+  options: GetPointByRatioOptions,
+): number {
   const min = options[`${axis}MinValue`],
     max = options[`${axis}MinValue`];
   if (min != null && max != null) {
@@ -120,7 +141,11 @@ function getNormalizedValue(value: number, axis: string, options: GetPointByRati
     const [minValue, maxValue] = getValidMinMax(min, max),
       clampMode = options[`${axis}ClampMode`],
       defaultValue = options[`${axis}DefaultValue`];
-    return clamp(value, minValue, maxValue, { minClampMode: clampMode, maxClampMode: clampMode, defaultValue });
+    return clamp(value, minValue, maxValue, {
+      minClampMode: clampMode,
+      maxClampMode: clampMode,
+      defaultValue,
+    });
   } else {
     // 補正なし
     return value;
@@ -133,7 +158,10 @@ function getNormalizedValue(value: number, axis: string, options: GetPointByRati
  * @param ratio 始点からの割合(0～1)
  * @returns 指定の割合以下になる位置
  */
-function _getMaxPointAtOrBelowRatio(path: GetPointByRatioInput[], ratio: number) {
+function _getMaxPointAtOrBelowRatio(
+  path: GetPointByRatioInput[],
+  ratio: number,
+) {
   path = path.reverse();
   for (const point of path) {
     if (point.ratio <= ratio) {
@@ -148,7 +176,10 @@ function _getMaxPointAtOrBelowRatio(path: GetPointByRatioInput[], ratio: number)
  * @param ratio 始点からの割合(0～1)
  * @returns 指定の割合以上になる位置
  */
-function _getMinPointAtOrAboveRatio(path: GetPointByRatioInput[], ratio: number) {
+function _getMinPointAtOrAboveRatio(
+  path: GetPointByRatioInput[],
+  ratio: number,
+) {
   for (const point of path) {
     if (ratio <= point.ratio) {
       return point;

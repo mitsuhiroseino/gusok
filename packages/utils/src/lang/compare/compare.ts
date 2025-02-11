@@ -1,7 +1,7 @@
-import isBoolean from 'lodash/isBoolean';
-import isDate from 'lodash/isDate';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
+import isBoolean from 'lodash-es/isBoolean';
+import isDate from 'lodash-es/isDate';
+import isNumber from 'lodash-es/isNumber';
+import isString from 'lodash-es/isString';
 import compareArray from '../../array/compare';
 import compareBoolean from '../../boolean/compare';
 import compareDate from '../../date/compare';
@@ -17,8 +17,13 @@ import { CompareOptions } from './types';
  * @param options オプション
  * @returns 比較結果
  */
-export default function compare(value1: any, value2: any, options: CompareOptions = {}): number {
-  const { booleanOptions, dateOptions, numberOptions, stringOptions, ...rest } = options;
+export default function compare(
+  value1: any,
+  value2: any,
+  options: CompareOptions = {},
+): number {
+  const { booleanOptions, dateOptions, numberOptions, stringOptions, ...rest } =
+    options;
 
   // 事前にundefined,nullの為の比較を行う
   const preResult = preCompare(value1, value2, rest);

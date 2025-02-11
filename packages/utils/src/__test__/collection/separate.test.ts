@@ -1,6 +1,6 @@
-import isBoolean from 'lodash/isBoolean';
-import isPlainObject from 'lodash/isPlainObject';
-import isString from 'lodash/isString';
+import isBoolean from 'lodash-es/isBoolean';
+import isPlainObject from 'lodash-es/isPlainObject';
+import isString from 'lodash-es/isString';
 import separate from 'src/collection/separate';
 
 describe('separate', () => {
@@ -114,7 +114,13 @@ describe('separate', () => {
           b: '2',
           c: 3,
           d: '4',
-          e: { A: 1, B: '2', C: 3, D: '4', E: { AA: 1, BB: '2', CC: 3, DD: '4' } },
+          e: {
+            A: 1,
+            B: '2',
+            C: 3,
+            D: '4',
+            E: { AA: 1, BB: '2', CC: 3, DD: '4' },
+          },
           f: true,
           g: [1, '2', 3, '4', 5, ['a', 'b', 'c', 'd', 'e']],
         },
@@ -166,7 +172,13 @@ describe('separate', () => {
           ],
         },
         (value) =>
-          Array.isArray(value) ? (value.length === 1 ? 'array' : undefined) : isString(value) ? 'string' : 'rest',
+          Array.isArray(value)
+            ? value.length === 1
+              ? 'array'
+              : undefined
+            : isString(value)
+              ? 'string'
+              : 'rest',
         { includeArray: true },
       );
       expect(result).toEqual({

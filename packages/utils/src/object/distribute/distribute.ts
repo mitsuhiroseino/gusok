@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash-es/cloneDeep';
 import { DistributeConfig, DistributeOptions } from './types';
 
 /**
@@ -13,8 +13,12 @@ export default function distribute<C extends DistributeConfig>(
   options: DistributeOptions = {},
 ) {
   const { ownProperty, cloneValue } = options;
-  const has = ownProperty ? (property) => Object.hasOwn(object, property) : (property) => property in object;
-  const get = cloneValue ? (property) => cloneDeep(object[property]) : (property) => object[property];
+  const has = ownProperty
+    ? (property) => Object.hasOwn(object, property)
+    : (property) => property in object;
+  const get = cloneValue
+    ? (property) => cloneDeep(object[property])
+    : (property) => object[property];
   // 分類結果
   const result: Record<string, Record<PropertyKey, unknown>> = {};
   // 対象をrestにコピーし、分類できたものはrestから削除していく
@@ -52,5 +56,7 @@ export default function distribute<C extends DistributeConfig>(
     }
   }
 
-  return result as { [groupKey in keyof C]: { [property: PropertyKey]: unknown } };
+  return result as {
+    [groupKey in keyof C]: { [property: PropertyKey]: unknown };
+  };
 }

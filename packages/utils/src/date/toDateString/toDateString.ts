@@ -1,5 +1,5 @@
 import { isAfter, isBefore } from 'date-fns';
-import isDate from 'lodash/isDate';
+import isDate from 'lodash-es/isDate';
 import { FORMATS, MAX_DATE, MIN_DATE } from '../constants';
 import formatFn from '../format';
 import parse from '../parse';
@@ -15,7 +15,10 @@ const COMPLEMENTS = [
   { token: 'ss', value: '00' },
 ];
 
-const toReturnValue = (value: Date | string | null, format: FormatType): string | null => {
+const toReturnValue = (
+  value: Date | string | null,
+  format: FormatType,
+): string | null => {
   if (isDate(value)) {
     return formatFn(value, { format });
   }

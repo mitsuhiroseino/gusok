@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import reduce from 'lodash/reduce';
+import reduce from 'lodash-es/reduce';
 import * as path from 'path';
 import checkExistence from '../checkExistence';
 import { InstallFromLocalOptions } from './types';
@@ -9,10 +9,17 @@ import { InstallFromLocalOptions } from './types';
  * @param localNodeModulesPath ローカルのnode_modulesディレクトリのパス
  * @param options オプション
  */
-function installFromLocal(localNodeModulesPath: string, options: InstallFromLocalOptions = {}) {
+function installFromLocal(
+  localNodeModulesPath: string,
+  options: InstallFromLocalOptions = {},
+) {
   console.info(new Date(), '@visue/dev/installFromLocal');
 
-  const { packageJsonPath = './package.json', nodeModulesPath = './node_modules', trial } = options,
+  const {
+      packageJsonPath = './package.json',
+      nodeModulesPath = './node_modules',
+      trial,
+    } = options,
     resolvedLocalNodeModulesPath = path.resolve(localNodeModulesPath),
     resolvedPackageJsonPath = path.resolve(packageJsonPath);
 
