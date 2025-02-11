@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 
 /**
- *
+ * ディレクトリ、ファイルの存在チェック
  * @param targetPaths
  * @param options
  */

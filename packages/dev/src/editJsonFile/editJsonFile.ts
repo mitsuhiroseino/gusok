@@ -9,7 +9,10 @@ import checkExistence from '../checkExistence';
  * @param jsonFilePath
  * @param editor
  */
-function editJsonFile(jsonFilePath: string, editor: ((obj: any) => any) | any) {
+function editJsonFile(
+  jsonFilePath: string,
+  editor: ((obj: any) => object) | object,
+) {
   const resolvedJsonFilePath = path.resolve(jsonFilePath);
   if (checkExistence(resolvedJsonFilePath)) {
     const obj = fs.readJSONSync(resolvedJsonFilePath);

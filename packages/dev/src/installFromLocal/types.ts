@@ -15,5 +15,5 @@ export type InstallFromLocalOptions = {
    * お試し
    * ファイルの操作は行わない
    */
-  trial?: boolean;
+  dryRun?: boolean;
 };

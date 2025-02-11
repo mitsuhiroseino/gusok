@@ -22,6 +22,11 @@
     "fs-extra": "^11.2.0",
     "lodash-es": "^4.17.21"
   },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "rollup": "^4.34.6",
+    "tsx": "^4.19.2"
+  },
   "scripts": {
     "build": "rimraf build && rollup --config",
     "start": "rimraf build && rollup --config --watch",

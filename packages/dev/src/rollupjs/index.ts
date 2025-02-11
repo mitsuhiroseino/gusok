@@ -1,1 +1,1 @@
-export { default as getRollupConfig } from './getRollupConfig';
+export { default as processTranspiledCodePlugin } from './processTranspiledCodePlugin';
