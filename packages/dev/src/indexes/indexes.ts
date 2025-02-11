@@ -26,6 +26,7 @@ export default function indexes(
     ...rest
   } = options;
 
+  // 処理対象を設定
   include = [
     // TypeScript,JavaScriptのファイルを対象
     {
@@ -49,6 +50,8 @@ export default function indexes(
     },
     ...include,
   ];
+
+  // 処理対象外を設定
   exclude = [
     // __test__フォルダ配下の全てを除外
     /.+\/__test__\/.+/i,
@@ -57,6 +60,7 @@ export default function indexes(
     ...exclude,
   ];
 
+  // indexファイルの作成処理を実行
   _indexes(targetPath, {
     indexFileName,
     include,

@@ -1,12 +1,11 @@
-import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import * as path from 'path';
+import esbuild from 'rollup-plugin-esbuild';
 import packagejson from 'rollup-plugin-generate-package-json';
 
 const INPUT = './src/index.ts';
-const EXTENTIONS = ['.ts', '.tsx', '.js', '.jsx'];
 const EXTENTION_CJS = 'js';
 const EXTENTION_ESM = 'js';
 // node_modules配下のdependenciesはバンドルしない。下記の正規表現の指定をするためには'@rollup/plugin-node-resolve'が必要
@@ -14,12 +13,11 @@ const EXTERNAL = [/node_modules/];
 const OUTPUT = './build';
 const OUTPUT_CJS = path.join(OUTPUT, 'cjs');
 const OUTPUT_ESM = OUTPUT;
-const BABEL_CONFIG_PATH = path.resolve('babel.config.js');
 const TSCONFIG_PATH = path.resolve('tsconfig.json');
 
 // commonjs用とesmodule用のソースを出力する
 const config = [
-  // esmのビルド
+  // esm & typeのビルド
   {
     // エントリーポイント
     input: INPUT,
@@ -38,16 +36,18 @@ const config = [
     plugins: [
       nodeResolve(),
       commonjs(),
+      esbuild({
+        target: 'esnext',
+        minify: false,
+        loader: 'ts',
+        treeShaking: false,
+      }),
+      // typesのビルド
       typescript({
         tsconfig: TSCONFIG_PATH,
         declaration: true,
         declarationDir: OUTPUT_ESM,
         outDir: OUTPUT_ESM,
-      }),
-      babel({
-        extensions: EXTENTIONS,
-        babelHelpers: 'runtime',
-        configFile: BABEL_CONFIG_PATH,
       }),
       packagejson({
         baseContents: (pkgjson) => ({
@@ -62,7 +62,7 @@ const config = [
       }),
     ],
   },
-  // cjs のビルド
+  // cjsのビルド
   {
     // エントリーポイント
     input: INPUT,
@@ -81,17 +81,11 @@ const config = [
     plugins: [
       nodeResolve(),
       commonjs(),
-      typescript({
-        tsconfig: TSCONFIG_PATH,
-        declaration: false,
-        declarationDir: null,
-        declarationMap: false,
-        outDir: OUTPUT_CJS,
-      }),
-      babel({
-        extensions: EXTENTIONS,
-        babelHelpers: 'runtime',
-        configFile: BABEL_CONFIG_PATH,
+      esbuild({
+        target: 'esnext',
+        minify: false,
+        loader: 'ts',
+        treeShaking: false,
       }),
     ],
   },
