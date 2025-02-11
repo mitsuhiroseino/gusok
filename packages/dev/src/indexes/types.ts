@@ -29,12 +29,6 @@ export type IndexesOptions = {
 
   /**
    * exportの形式を下記の様にしたいもの
-   * `export type * from './abc';`
-   */
-  exportTypeAll?: IsMatchingPathCondition[];
-
-  /**
-   * exportの形式を下記の様にしたいもの
    * `export * as abc from './abc';`
    */
   exportAllAs?: IsMatchingPathCondition[];
@@ -50,6 +44,12 @@ export type IndexesOptions = {
    * `export { default as abc } from './abc';`
    */
   exportDefaultAs?: IsMatchingPathCondition[];
+
+  /**
+   * exportの形式を下記の様にしたいもの
+   * `export type * from './abc';`
+   */
+  exportTypeAll?: IsMatchingPathCondition[];
 
   /**
    * お試し

@@ -1,5 +1,8 @@
 {
   "name": "gusok",
+  "version": "0.1.0",
+  "author": "Mitsuhiro Seino",
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],

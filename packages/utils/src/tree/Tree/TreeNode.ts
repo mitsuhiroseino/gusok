@@ -1,6 +1,12 @@
-import { DEFAULT_PROPS } from './constants';
-import NodeBase from './NodeBase';
-import { ChildNode, Node, ProxiedItem, ProxyHandlers, TreeNodeOptions } from './types';
+import { DEFAULT_PROPS } from "./constants";
+import NodeBase from "./NodeBase";
+import {
+  ChildNode,
+  Node,
+  ProxiedItem,
+  ProxyHandlers,
+  TreeNodeOptions,
+} from "./types";
 
 /**
  * ツリーのノード
@@ -30,13 +36,20 @@ export default class TreeNode<
 
   constructor(item: I, options: TreeNodeOptions<I, N> = {}) {
     super();
-    const { parent, childrenProp = DEFAULT_PROPS.CHILDREN, isExpandedProp, proxyHandlers } = options;
+    const {
+      parent,
+      childrenProp = DEFAULT_PROPS.CHILDREN,
+      isExpandedProp,
+      proxyHandlers,
+    } = options;
     this._options = { ...options, parent: this.getNode() };
     // 受け取ったものを保持
     this._item = item;
+    // @ts-ignore
     this._parent = parent;
     this._isExpanded = isExpandedProp ? !!item[isExpandedProp] : false;
     // レベルを設定
+    // @ts-ignore
     this._level = parent.getLevel() + 1;
     // itemのプロキシを作成
     this._proxy = this._proxyItem(item, proxyHandlers);
@@ -54,7 +67,10 @@ export default class TreeNode<
    * @param handlers
    * @returns
    */
-  private _proxyItem(item: I, handlers: ProxyHandlers<I, N, CN>): ProxiedItem<I, N, CN> {
+  private _proxyItem(
+    item: I,
+    handlers: ProxyHandlers<I, N, CN>,
+  ): ProxiedItem<I, N, CN> {
     return new Proxy(item, {
       get: (target, prop, receiver) => {
         const handler = handlers.get[prop];
@@ -82,6 +98,7 @@ export default class TreeNode<
   }
 
   setChildren(items: I[]): CN[] {
+    // @ts-ignore
     this._item[this._options.childrenProp] = items;
     return super.setChildren(items);
   }
@@ -108,6 +125,7 @@ export default class TreeNode<
       return Promise.resolve([]);
     }
     if (this._canLoad()) {
+      // @ts-ignore
       return this._options.loadChildren(this.getItem()).then((items) => {
         this._setChildren(items);
         this.setExpanded(true);

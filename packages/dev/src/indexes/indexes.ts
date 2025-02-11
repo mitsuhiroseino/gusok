@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 import { posix as path } from 'path';
-import isMatchingPath, { IsMatchingPathCondition } from '../isMatchingPath';
+import isMatchingPath from '../isMatchingPath';
 import { IndexesOptions } from './types';
 
 const EXPORTS = {
@@ -11,46 +11,56 @@ const EXPORTS = {
   exportTypeAll: (name) => `export type * from './${name}';`,
 };
 
-// デフォルトのindex対象
-const DEFAULT_INCLUDE: IsMatchingPathCondition[] = [
-  {
-    valueType: 'base',
-    entryType: 'file',
-    conditions: /^[^_].*\.(ts|tsx|js|jsx)$/i,
-  },
-  { valueType: 'name', entryType: 'dir', conditions: /^[^_].*/ },
-];
+const REGEXP_INDEX = /^index.ts$/i;
+const REGEXP_TYPES = /^types.ts$/i;
+const REGEXP_CONSTANTS = /^constants.(ts|tsx)$/i;
 
 export default function indexes(
-  targetPath: string,
+  targetPath: string = 'src',
   options: IndexesOptions = {},
 ) {
-  const {
+  let {
     indexFileName = 'index.ts',
-    include = DEFAULT_INCLUDE,
+    include = [],
     exclude = [],
-    exportAll = [],
-    exportTypeAll = [],
     ...rest
   } = options;
 
-  exportAll.push({
-    valueType: 'name',
-    entryType: 'file',
-    conditions: 'constants',
-  });
-  exportTypeAll.push({
-    valueType: 'name',
-    entryType: 'file',
-    conditions: 'types',
-  });
+  include = [
+    // TypeScript,JavaScriptのファイルを対象
+    {
+      valueType: 'base',
+      entryType: 'file',
+      conditions: /.+\.(ts|tsx|js|jsx)$/i,
+    },
+    // 配下にindex.tsを持つディレクトリを対象
+    {
+      valueType: 'name',
+      entryType: 'dir',
+      conditions: (values) => {
+        const items = fs.readdirSync(values.path);
+        for (const item of items) {
+          if (REGEXP_INDEX.test(item)) {
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+    ...include,
+  ];
+  exclude = [
+    // __test__フォルダ配下の全てを除外
+    /.+\/__test__\/.+/i,
+    // ディレクトリ名、ファイル名が_で始まるものを除外
+    { valueType: 'base', conditions: /^_/ },
+    ...exclude,
+  ];
 
   _indexes(targetPath, {
     indexFileName,
     include,
     exclude,
-    exportAll,
-    exportTypeAll,
     ...rest,
   });
 }
@@ -81,7 +91,7 @@ function _indexes(
 
   for (const item of items) {
     const itemPath = path.join(targetPath, item);
-    const { name } = path.parse(itemPath);
+    const { name, base } = path.parse(itemPath);
     const stat = fs.statSync(itemPath);
 
     let children;
@@ -114,7 +124,13 @@ function _indexes(
       } else if (stat.isFile()) {
         // ファイルの場合
         // ファイルのルールに従ってexportを設定
-        if (name === parentName) {
+        if (REGEXP_TYPES.test(base)) {
+          // ファイル名がtypes.ts
+          index.push(EXPORTS.exportTypeAll(name));
+        } else if (REGEXP_CONSTANTS.test(base)) {
+          // ファイル名がconstants.ts
+          index.push(EXPORTS.exportAll(name));
+        } else if (name === parentName) {
           // 拡張子を除いたファイル名が親ディレクトリ名と同じ場合
           index.push(EXPORTS.exportDefault(name));
         } else {

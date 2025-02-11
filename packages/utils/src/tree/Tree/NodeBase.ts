@@ -1,5 +1,5 @@
-import removeAt from '../../array/removeAt';
-import { ChildNode, Node, ProxiedItem, TreeNodeOptions } from './types';
+import removeAt from "../../array/removeAt";
+import { ChildNode, Node, ProxiedItem, TreeNodeOptions } from "./types";
 
 /**
  * ツリー構造の配列をフラットな配列として扱うクラスの基底クラス
@@ -18,12 +18,12 @@ export default abstract class NodeBase<
   /**
    * 子要素
    */
-  protected _children: I[];
+  protected _children: I[] | null;
 
   /**
    * プロキシされた子要素
    */
-  protected _childProxies: ProxiedItem<I, N, CN>[];
+  protected _childProxies: ProxiedItem<I, N, CN>[] | null;
 
   /**
    * 展開状態を考慮した子要素のフラットな配列

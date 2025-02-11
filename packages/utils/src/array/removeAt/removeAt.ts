@@ -1,5 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
-
 /**
  * 指定の位置の要素を削除する
  * indexに負の数を指定した場合は末尾から数えた位置から前方に向かって指定数削除する
@@ -7,8 +5,12 @@ import isEmpty from 'lodash/isEmpty';
  * @param index インデックス
  * @param size 削除数
  */
-export default function removeAt<T>(array: T[], index: number, size: number = 1): T[] {
-  if (!isEmpty(array) && size > 0) {
+export default function removeAt<T>(
+  array: T[] | null | undefined,
+  index: number,
+  size: number = 1,
+): T[] | null | undefined {
+  if (array != null && !array.length && size > 0) {
     if (index < 0) {
       // 末尾から指定数分削除する場合はindexを補正
       index = array.length + index - size + 1;
@@ -20,5 +22,5 @@ export default function removeAt<T>(array: T[], index: number, size: number = 1)
       return array.splice(index, size);
     }
   }
-  return [];
+  return array;
 }

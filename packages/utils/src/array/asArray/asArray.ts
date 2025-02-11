@@ -1,5 +1,5 @@
 /**
- * valueが配列でない場合、配列に変換し返却します。
+ * valueが配列でない場合、配列に変換し返却する。
  * @param value
  */
 export default function asArray<T>(value: T | T[]): T[] {

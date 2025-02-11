@@ -10,6 +10,10 @@
     "build",
     "package.json"
   ],
+  "exports": {
+    ".": "./build/index.js",
+    "./*": "./build/*/index.js"
+  },
   "dependencies": {
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^24.0.1",
@@ -42,8 +46,8 @@
     "rollup-plugin-generate-package-json": "^3.2.0",
     "rollup-plugin-postcss": "^4.0.2",
     "ts-jest": "^29.1.0",
-    "ts-node": "^10.9.1",
     "tslib": "^2.5.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.0.0",
     "typescript-eslint": "^7.10.0"
   },
@@ -53,7 +57,7 @@
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
     "organize": "prettier --write \"src/**/*.{ts,js,json}\" --config ./prettier.organize.config.js",
     "test": "jest",
-    "indexes": "node scripts/indexes.js src"
+    "indexes": "tsx scripts/indexes.ts"
   },
   "packageManager": "yarn@4.6.0"
 }

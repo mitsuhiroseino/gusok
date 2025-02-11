@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["ESNext"],
-    "rootDir": "src",
+    "rootDir": "packages",
     "outDir": "build",
     "allowJs": true,
     "checkJs": true,
@@ -23,8 +23,13 @@
     "typeRoots": ["node_modules/@types"],
     "strictNullChecks": false,
     "types": ["jest", "node"],
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
+    "paths": {
+      "@gusok/dev/*": ["packages/dev/src/*"],
+      "@gusok/utils/*": ["packages/utils/src/*"]
+    }
   },
-  "include": ["./src"],
-  "exclude": ["./src/__test__"]
+  "include": ["packages/*/src"],
+  "exclude": ["packages/*/src/__test__"]
 }

@@ -13,6 +13,7 @@ export { default as isValidNumber } from './isValidNumber';
 export { default as match } from './match';
 export { default as parse } from './parse';
 export { default as restrictRange } from './restrictRange';
+export { default as toDecimalString } from './toDecimalString';
 export { default as toNaturalNumber } from './toNaturalNumber';
 export { default as toNumberPattern } from './toNumberPattern';
 export { default as toPositiveNumber } from './toPositiveNumber';

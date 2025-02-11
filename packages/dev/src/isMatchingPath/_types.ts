@@ -30,7 +30,7 @@ export type ConditionConfig = {
    * - string: 指定された文字列を含むものに一致
    * - RegExp: 指定された正規表現に一致
    */
-  conditions: string | RegExp | (string | RegExp)[];
+  conditions: string | RegExp | ConditionFn | (string | RegExp | ConditionFn)[];
 };
 
 /**
