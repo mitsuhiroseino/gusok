@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import { posix as path } from 'path';
 import isMatchingPath from '../isMatchingPath';
 import { AddExportsOptions } from './types';

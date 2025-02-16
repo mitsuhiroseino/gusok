@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import isFunction from 'lodash-es/isFunction';
 import isString from 'lodash-es/isString';
 import { posix as path } from 'path';

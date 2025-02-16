@@ -1,6 +1,6 @@
-import * as fs from 'fs-extra';
+import fs from 'fs-extra';
 import reduce from 'lodash-es/reduce';
-import * as path from 'path';
+import path from 'path';
 import checkExistence from '../checkExistence';
 import { InstallFromLocalOptions } from './types';
 
