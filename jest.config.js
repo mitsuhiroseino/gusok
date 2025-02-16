@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+export default {
   preset: 'ts-jest/presets/js-with-babel-esm',
   roots: ['<rootDir>/src/__test__'],
   testEnvironment: 'node',

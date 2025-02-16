@@ -1,5 +1,5 @@
 /** @type {import("prettier").Config} */
-const config = {
+export default {
   arrowParens: 'always',
   semi: true,
   useTabs: false,
@@ -12,4 +12,3 @@ const config = {
   organizeImportsSkipDestructiveCodeActions: true,
   plugins: ['prettier-plugin-organize-imports'],
 };
-module.exports = config;

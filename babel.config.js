@@ -1,5 +1,5 @@
 // ビルド用の設定
-module.exports = {
+export default {
   presets: [
     [
       // 標準のpreset

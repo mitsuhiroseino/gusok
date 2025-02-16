@@ -4,7 +4,7 @@ import globals from 'globals';
 import tsPlugin from 'typescript-eslint';
 
 // lintの設定
-/** @type {import('eslint').Linter.FlatConfig[]} */
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   {
     // 対象はsrc,scripts配下のtsファイル

@@ -16,7 +16,7 @@ const OUTPUT = './build';
 const OUTPUT_ESM = OUTPUT;
 const OUTPUT_CJS_DIR = 'cjs';
 const OUTPUT_CJS = path.join(OUTPUT, OUTPUT_CJS_DIR);
-const BABEL_CONFIG_PATH = path.resolve('babel.config.cjs');
+const BABEL_CONFIG_PATH = path.resolve('babel.config.js');
 const TSCONFIG_PATH = path.resolve('tsconfig.json');
 
 // commonjs用とesmodule用のソースを出力する
@@ -63,8 +63,14 @@ const config = [
           module: `index.${EXTENTION_ESM}`,
           types: 'index.d.ts',
           exports: {
-            import: './',
-            require: `./${OUTPUT_CJS_DIR}/`,
+            '.': {
+              import: './index.js',
+              require: `./${OUTPUT_CJS_DIR}/index.cjs`,
+            },
+            './*': {
+              import: './',
+              require: `./${OUTPUT_CJS_DIR}/`,
+            },
           },
         }),
       }),
