@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "author": "Mitsuhiro Seino",
   "license": "MIT",
+  "type": "module",
   "main": "build/cjs/index.js",
   "module": "build/index.js",
   "types": "build/index.d.ts",
@@ -10,16 +11,13 @@
     "build",
     "package.json"
   ],
-  "exports": {
-    ".": "./build/index.js",
-    "./*": "./build/*/index.js"
-  },
   "dependencies": {
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^8.3.2",
     "fs-extra": "^11.2.0",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
@@ -33,7 +31,21 @@
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
     "organize": "prettier --write \"src/**/*.{ts,js,json}\" --config ./prettier.organize.config.js",
     "test": "jest",
-    "indexes": "tsx scripts/indexes.ts"
+    "indexes": "tsx scripts/indexes.ts",
+    "addExports": "tsx scripts/addExports.ts"
   },
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "yarn@4.6.0",
+  "exports": {
+    ".": "./build/index.js",
+    "./addExports": "./build/addExports/index.js",
+    "./checkExistence": "./build/checkExistence/index.js",
+    "./editJsonFile": "./build/editJsonFile/index.js",
+    "./indexes": "./build/indexes/index.js",
+    "./installFromLocal": "./build/installFromLocal/index.js",
+    "./isMatchingPath": "./build/isMatchingPath/index.js",
+    "./moveFilesToSubdir": "./build/moveFilesToSubdir/index.js",
+    "./rollup": "./build/rollup/index.js",
+    "./rollup/processTranspiledCodePlugin": "./build/rollup/processTranspiledCodePlugin/index.js",
+    "./ver": "./build/ver/index.js"
+  }
 }

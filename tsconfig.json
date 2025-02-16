@@ -26,8 +26,8 @@
     "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@gusok/dev/*": ["packages/dev/src/*"],
-      "@gusok/utils/*": ["packages/utils/src/*"]
+      "@gusok/dev/*": ["packages/dev/build/*"],
+      "@gusok/utils/*": ["packages/utils/build/*"]
     }
   },
   "include": ["packages/*/src"],

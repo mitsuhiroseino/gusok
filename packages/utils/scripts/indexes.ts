@@ -1,3 +1,3 @@
-import indexes from '@gusok/dev/indexes';
+import { indexes } from '@gusok/dev';
 
 indexes();

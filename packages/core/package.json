@@ -1,54 +1,65 @@
 {
-  "name": "gusok",
-  "version": "0.1.0",
+  "name": "@visue/core",
+  "version": "0.2.0",
   "author": "Mitsuhiro Seino",
   "license": "MIT",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "type": "module",
+  "main": "build/cjs/index.cjs",
+  "module": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build",
+    "package.json"
+  ],
+  "engines": {
+    "npm": "use yarn instead",
+    "yarn": "^4.0.0"
+  },
+  "scripts": {
+    "build": "rimraf build && rollup --config",
+    "start": "rimraf build && rollup --config --watch",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "organize": "prettier --write \"src/**/*.{ts,js,json}\" --config ./prettier.organize.config.js",
+    "test": "jest",
+    "tsc": "rimraf dist && tsc"
+  },
+  "dependencies": {
+    "@gusok/utils": "workspace:*",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.9",
-    "@babel/plugin-transform-modules-commonjs": "^7.26.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.21.2",
     "@babel/plugin-transform-runtime": "^7.17.10",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.21.4",
     "@babel/runtime": "^7.17.9",
     "@eslint/js": "^9.3.0",
-    "@rollup/plugin-alias": "^5.1.1",
+    "@gusok/dev": "workspace:*",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-typescript": "^8.3.2",
-    "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.5.0",
-    "@types/jsesc": "^3",
     "@types/lodash": "^4.14.195",
     "@types/lodash-es": "^4.17.6",
-    "@types/node": "^20.2.5",
     "babel-jest": "^29.5.0",
-    "esbuild": "^0.25.0",
     "eslint": "^9.3.0",
     "eslint-config-prettier": "^9.1.0",
     "fs-extra": "^11.2.0",
     "globals": "^15.3.0",
-    "jest": "^29.5.0",
+    "jest": "^29.7.0",
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4",
     "rimraf": "^3.0.2",
     "rollup": "^3.26.0",
-    "rollup-plugin-esbuild": "^6.2.0",
     "rollup-plugin-generate-package-json": "^3.2.0",
     "rollup-plugin-postcss": "^4.0.2",
     "ts-jest": "^29.1.0",
     "tslib": "^2.5.0",
-    "tsx": "^4.19.2",
     "typescript": "^5.0.0",
     "typescript-eslint": "^7.10.0"
   },
-  "packageManager": "yarn@4.6.0",
-  "dependencies": {
-    "lodash": "^4.17.21"
-  }
+  "packageManager": "yarn@4.2.1"
 }
