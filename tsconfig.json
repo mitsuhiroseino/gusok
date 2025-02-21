@@ -4,11 +4,11 @@
     "module": "ESNext",
     "lib": ["ESNext"],
     "rootDir": "packages",
-    "outDir": "build",
+    "outDir": "dist",
     "allowJs": true,
     "checkJs": true,
     "declaration": true,
-    "declarationDir": "build",
+    "declarationDir": "dist",
     "declarationMap": false,
     "sourceMap": false,
     "inlineSources": false,
@@ -26,8 +26,8 @@
     "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@gusok/dev/*": ["packages/dev/build/*"],
-      "@gusok/utils/*": ["packages/utils/build/*"]
+      "@gusok/dev/*": ["packages/dev/dist/*"],
+      "@gusok/utils/*": ["packages/utils/dist/*"]
     }
   },
   "include": ["packages/*/src"],

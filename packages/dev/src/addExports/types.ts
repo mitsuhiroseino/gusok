@@ -7,6 +7,11 @@ export type AddExportsOptions = {
   packageJsonPath?: string;
 
   /**
+   * ビルドしたパッケージが置かれたディレクトリの名称
+   */
+  dist?: string;
+
+  /**
    * indexファイルを作る対象
    * 未指定の場合は下記の条件がデフォルトで適用される
    *

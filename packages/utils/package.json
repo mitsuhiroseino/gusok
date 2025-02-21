@@ -4,21 +4,21 @@
   "author": "Mitsuhiro Seino",
   "license": "MIT",
   "type": "module",
-  "main": "build/cjs/index.cjs",
-  "module": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "build",
+    "dist",
     "package.json"
   ],
   "exports": {
     ".": {
-      "import": "./build/index.js",
-      "require": "./build/cjs/index.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/cjs/index.cjs"
     },
     "./*": {
-      "import": "./build/",
-      "require": "./build/cjs/"
+      "import": "./dist/",
+      "require": "./dist/cjs/"
     }
   },
   "dependencies": {
@@ -42,8 +42,8 @@
     "tsx": "^4.19.2"
   },
   "scripts": {
-    "build": "rimraf build && rollup --config",
-    "start": "rimraf build && rollup --config --watch",
+    "build": "rimraf dist && rollup --config",
+    "start": "rimraf dist && rollup --config --watch",
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
     "organize": "prettier --write \"src/**/*.{ts,js,json}\" --config ./prettier.organize.config.js",
     "test": "jest",

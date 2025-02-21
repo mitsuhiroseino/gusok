@@ -15,6 +15,7 @@ export default function addExports(
   let {
     packageJsonPath = 'package.json',
     include = [],
+    dist = 'dist',
     dryRun,
     ...rest
   } = options;
@@ -34,6 +35,7 @@ export default function addExports(
   const exportsIndex = _addExports(targetPath, {
     packageJsonPath,
     include,
+    dist,
     ...rest,
   });
 
@@ -59,7 +61,7 @@ function _addExports(
   options: AddExportsOptions,
   current: string = '',
 ) {
-  const { include, exclude } = options;
+  const { include, exclude, dist } = options;
 
   const stat = fs.statSync(targetPath);
   if (!stat.isDirectory()) {
@@ -87,7 +89,7 @@ function _addExports(
       // exportの対象の場合
       exportsIndex.push({
         key: current,
-        path: path.join('build', current, name),
+        path: path.join(dist, current, name),
       });
     }
   }

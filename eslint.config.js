@@ -9,8 +9,8 @@ export default [
   {
     // 対象はsrc,scripts配下のtsファイル
     files: ['src/**/*.ts', 'scripts/**/*.ts'],
-    // 念のためにbuildとnode_modules配下を除外
-    ignores: ['build/**', 'node_modules/**'],
+    // 念のためにdistとnode_modules配下を除外
+    ignores: ['dist/**', 'node_modules/**'],
     languageOptions: {
       // node,jestのグローバル変数を有効
       globals: [globals.node, globals.jest],

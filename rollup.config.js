@@ -1,18 +1,18 @@
+import packagejson from '@gusok/rollup-create-dist-packagejson';
 import alias from '@rollup/plugin-alias';
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import * as path from 'path';
-import packagejson from 'rollup-plugin-generate-package-json';
 
 const INPUT = './src/index.ts';
 const EXTENTIONS = ['.ts', '.tsx', '.js', '.jsx'];
 const EXTENTION_ESM = 'js';
 const EXTENTION_CJS = 'cjs';
 // node_modules配下のdependenciesはバンドルしない。下記の正規表現の指定をするためには'@rollup/plugin-node-resolve'が必要
-const EXTERNAL = [/[\\/]node_modules[\\/]/, /[\\/]build[\\/]/];
-const OUTPUT = './build';
+const EXTERNAL = [/[\\/]node_modules[\\/]/, /[\\/]dist[\\/]/];
+const OUTPUT = './dist';
 const OUTPUT_ESM = OUTPUT;
 const OUTPUT_CJS_DIR = 'cjs';
 const OUTPUT_CJS = path.join(OUTPUT, OUTPUT_CJS_DIR);
@@ -53,11 +53,7 @@ const config = [
         configFile: BABEL_CONFIG_PATH,
       }),
       packagejson({
-        baseContents: (pkgjson) => ({
-          name: pkgjson.name,
-          version: pkgjson.version,
-          author: pkgjson.author,
-          license: pkgjson.license,
+        content: {
           type: 'module',
           main: `${OUTPUT_CJS_DIR}/index.${EXTENTION_CJS}`,
           module: `index.${EXTENTION_ESM}`,
@@ -72,7 +68,14 @@ const config = [
               require: `./${OUTPUT_CJS_DIR}/`,
             },
           },
-        }),
+        },
+        finish: (packageJson) => {
+          const dependencies = packageJson.dependencies || {};
+          if ('lodash-es' in dependencies) {
+            dependencies.lodash = dependencies['lodash-es'];
+          }
+          return packageJson;
+        },
       }),
     ],
   },
@@ -89,6 +92,7 @@ const config = [
       entryFileNames: `[name].${EXTENTION_CJS}`,
       // バンドルしない(falseだとindex.cjsに纏められてしまう)
       preserveModules: true,
+      interop: 'auto',
     },
     external: EXTERNAL,
     treeshake: false,
