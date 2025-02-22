@@ -1,1 +1,1 @@
-export { VALUE_TYPE } from '../typeOf';
+export { VALUE_TYPE } from '../typeOf/constants';

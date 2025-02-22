@@ -1,10 +1,8 @@
 import invert from 'lodash-es/invert';
 import isEqual from 'lodash-es/isEqual';
 import asArray from '../../array/asArray';
-import replaceWithMap, {
-  ReplacementMap,
-  createRegExpForReplaceWidthMap,
-} from '../replaceWithMap';
+import replaceWithMap, { ReplacementMap } from '../replaceWithMap';
+import createRegExpForReplaceWidthMap from '../replaceWithMap/createRegExpForReplaceWidthMap';
 import { ReplacementSetting, ReplacerConfig } from './types';
 
 /**

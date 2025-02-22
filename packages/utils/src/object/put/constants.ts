@@ -1,1 +1,1 @@
-export { COMPARE_MODE as EQUALITY_TYPE } from '../../lang/isSame';
+export { COMPARE_MODE as EQUALITY_TYPE } from '../../lang/isSame/constants';

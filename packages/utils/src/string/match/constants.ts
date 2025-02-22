@@ -1,1 +1,1 @@
-export { RELATIONAL_OPERATOR } from '../../lang/examineRelationship';
+export { RELATIONAL_OPERATOR } from '../../lang/examineRelationship/constants';

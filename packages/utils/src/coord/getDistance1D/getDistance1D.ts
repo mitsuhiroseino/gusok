@@ -1,4 +1,5 @@
-import clamp, { CLAMP_MODE, ClampOptions } from '../../number/clamp';
+import clamp, { ClampOptions } from '../../number/clamp';
+import { CLAMP_MODE } from '../../number/clamp/constants';
 import ensureAccuracy from '../../number/ensureAccuracy';
 import getValidMinMax from '../../number/getValidMinMax';
 import { GetDistance1DOptions } from './types';
@@ -10,7 +11,11 @@ import { GetDistance1DOptions } from './types';
  * @param options オプション
  * @returns 始点から終点の距離
  */
-export default function getDistance1D(start: number, end: number, options: GetDistance1DOptions = {}) {
+export default function getDistance1D(
+  start: number,
+  end: number,
+  options: GetDistance1DOptions = {},
+) {
   const { abs, wrap, minValue, maxValue, accuracy } = options;
 
   let distance;
@@ -40,8 +45,16 @@ export default function getDistance1D(start: number, end: number, options: GetDi
  * @param max 最大値
  * @returns 始点から終点の距離
  */
-function _getLoopedDistance(start: number, end: number, min: number, max: number) {
-  const clampOptions: ClampOptions = { minClampMode: CLAMP_MODE.WRAP, maxClampMode: CLAMP_MODE.WRAP },
+function _getLoopedDistance(
+  start: number,
+  end: number,
+  min: number,
+  max: number,
+) {
+  const clampOptions: ClampOptions = {
+      minClampMode: CLAMP_MODE.WRAP,
+      maxClampMode: CLAMP_MODE.WRAP,
+    },
     startValue = clamp(start, min, max, clampOptions),
     endValue = clamp(end, min, max, clampOptions),
     diff = endValue - startValue,

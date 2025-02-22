@@ -17,5 +17,6 @@
 **/yarn-error.log
 
 *.tsbuildinfo
+.rollup.cache/
 
 *.code-workspace

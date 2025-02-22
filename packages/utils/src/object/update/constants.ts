@@ -1,1 +1,1 @@
-export { COMPARE_MODE } from '../../lang/isSame';
+export { COMPARE_MODE } from '../../lang/isSame/constants';

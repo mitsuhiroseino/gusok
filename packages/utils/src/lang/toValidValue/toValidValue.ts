@@ -1,4 +1,5 @@
-import typeOf, { VALUE_TYPE } from '../typeOf';
+import typeOf from '../typeOf';
+import { VALUE_TYPE } from '../typeOf/constants';
 import { ToValidValueOptions } from './types';
 
 /**
@@ -8,7 +9,10 @@ import { ToValidValueOptions } from './types';
  * @param options オプション
  * @returns
  */
-export default function toValidValue<V = unknown>(value: any, options: ToValidValueOptions<V> = {}): V {
+export default function toValidValue<V = unknown>(
+  value: any,
+  options: ToValidValueOptions<V> = {},
+): V {
   if (!options.validType) {
     // 型の指定なし
     if (value != null) {

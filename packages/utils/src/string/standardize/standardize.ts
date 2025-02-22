@@ -1,4 +1,5 @@
-import transform, { TRANSFORMATION_TYPES, TransformationType } from '../transform';
+import transform, { TransformationType } from '../transform';
+import { TRANSFORMATION_TYPES } from '../transform/constants';
 import { StandardizeOptions } from './types';
 
 /**
@@ -7,7 +8,10 @@ import { StandardizeOptions } from './types';
  * @param options オプション
  * @returns 標準化された文字列
  */
-export default function standardize(value: string, options: StandardizeOptions = {}): string {
+export default function standardize(
+  value: string,
+  options: StandardizeOptions = {},
+): string {
   if (value) {
     // 文字列あり
     const {

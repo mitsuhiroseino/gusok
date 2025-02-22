@@ -1,19 +1,32 @@
 import rotate from '../../array/rotate';
-import { tabulateResult } from '../comparePerformance';
+import tabulateResult from '../comparePerformance/tabulateResult';
 import measureAsync from '../measureAsync';
-import { MeasurementAsyncAgenda, MeasurementAsyncResult, RequiredTimeAsyncResult } from './types';
+import {
+  MeasurementAsyncAgenda,
+  MeasurementAsyncResult,
+  RequiredTimeAsyncResult,
+} from './types';
 
 /**
  * 任意の関数の実行時間を測定し比較する
  * @param agenda
  * @returns
  */
-export default async function comparePerformanceAsync<A extends Array<unknown> = Array<unknown>, R = any>(
-  agenda: MeasurementAsyncAgenda<A>,
-): Promise<MeasurementAsyncResult<A, R>> {
+export default async function comparePerformanceAsync<
+  A extends Array<unknown> = Array<unknown>,
+  R = any,
+>(agenda: MeasurementAsyncAgenda<A>): Promise<MeasurementAsyncResult<A, R>> {
   // 開始日時
   const start = new Date(),
-    { id = String(start.getTime()), targets, args, getArgs, iteration = 10, tests = 10, warmingUp } = agenda,
+    {
+      id = String(start.getTime()),
+      targets,
+      args,
+      getArgs,
+      iteration = 10,
+      tests = 10,
+      warmingUp,
+    } = agenda,
     // measureAsync関数の引数
     opts = { args, getArgs, iteration },
     // 各測定回の結果
@@ -24,7 +37,9 @@ export default async function comparePerformanceAsync<A extends Array<unknown> =
   if (warmingUp) {
     // ウォーミングアップ
     const warmingUpOpts = { ...opts, iteration: 1 };
-    await Promise.all(targets.map((target) => measureAsync(target.fn, warmingUpOpts)));
+    await Promise.all(
+      targets.map((target) => measureAsync(target.fn, warmingUpOpts)),
+    );
   }
 
   // 測定する順番を変えながら測定を行う
