@@ -13,7 +13,7 @@ import { IsMatchingPathCondition, IsMatchingPathOptions } from './types';
 export default function isMatchingPath(
   targetPath: string,
   conditions: IsMatchingPathCondition | IsMatchingPathCondition[],
-  options?: IsMatchingPathOptions,
+  options: IsMatchingPathOptions = {},
 ) {
   if (!conditions) {
     return false;
@@ -60,7 +60,7 @@ function _isMatching(
     }
   } else if (isFunction(condition)) {
     // 条件が関数
-    return condition(values, options);
+    return condition(values, options.conditionOptions);
   } else {
     // 条件が設定
     const { valueType = 'path', entryType = 'both', conditions } = condition;

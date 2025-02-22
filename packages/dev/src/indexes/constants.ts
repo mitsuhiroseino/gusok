@@ -33,8 +33,7 @@ export const TS_JS: IsMatchingPathCondition = {
  */
 export const HAS_INDEX_DIR: IsMatchingPathCondition = {
   entryType: 'dir',
-  conditions: (values, { conditionOptions }) => {
-    const { indexRegex } = conditionOptions;
+  conditions: (values, { indexRegex }) => {
     const items = fs.readdirSync(values.path);
     for (const item of items) {
       if (indexRegex.test(item)) {
@@ -82,7 +81,7 @@ export const TOOLS_DIR: IsMatchingPathCondition = {
       // 先頭が小文字
       base[0] === base[0].toLowerCase() &&
       // 子要素にディレクトリと同じ名称のファイルが無い
-      children.every((child) => child.split('.')[0] !== base)
+      children?.every((child) => child.split('.')[0] !== base)
     );
   },
 };

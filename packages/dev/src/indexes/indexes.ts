@@ -60,6 +60,10 @@ export default function indexes(
     indexFileName,
     include,
     exclude,
+    exportAll,
+    exportAllAs,
+    exportDefault,
+    exportTypeAll,
     ...rest,
   });
 }
@@ -160,6 +164,7 @@ function _indexes(
         if (exportCode.type !== 'named') {
           result.push(exportCode.code);
         }
+        return result;
       }, []);
     } else {
       index = exportCodes.map((exportCode) => exportCode.code);
