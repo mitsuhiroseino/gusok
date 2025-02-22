@@ -2,6 +2,12 @@ import { IsMatchingPathCondition } from '../isMatchingPath';
 
 export type IndexesOptions = {
   /**
+   * 処理対象のパス\
+   * デフォルトは`src`
+   */
+  srcPath?: string;
+
+  /**
    * indexのファイル名\
    * デフォルトは`index.ts`
    */

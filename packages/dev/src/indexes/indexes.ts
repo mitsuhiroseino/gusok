@@ -39,11 +39,9 @@ const EXPORTS = {
  * 対象ファイルで出力形式が特に指定されていない場合は下記の形式で出力\
  * `export { default as ${name} } from './${name}';`
  */
-export default function indexes(
-  targetPath: string = 'src',
-  options: IndexesOptions = {},
-) {
-  let {
+export default function indexes(options: IndexesOptions = {}) {
+  const {
+    srcPath = 'src',
     indexFileName = 'index.ts',
     include = DEFAULT_INCLUDE,
     exclude = DEFAULT_EXCLUDE,
@@ -56,7 +54,7 @@ export default function indexes(
   const indexRegex = _createRegex(indexFileName);
 
   // indexファイルの作成処理を実行
-  _indexes(targetPath, indexRegex, {
+  _indexes(srcPath, indexRegex, {
     indexFileName,
     include,
     exclude,
@@ -97,7 +95,7 @@ function _indexes(
     console.error(`"${targetPath}" is not directory.`);
   }
   const items = fs.readdirSync(targetPath);
-  items.sort();
+  items.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
   const exportCodes = [];
   let hasDefaultExport = false;
   let hasNamedExport = false;

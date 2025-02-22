@@ -1,8 +1,8 @@
-export { default as DistinctArray } from './DistinctArray';
 export { default as asArray } from './asArray';
 export { default as clear } from './clear';
 export { default as compare } from './compare';
 export { default as createPaddedArray } from './createPaddedArray';
+export { default as DistinctArray } from './DistinctArray';
 export { default as expand } from './expand';
 export { default as insert } from './insert';
 export { default as mapFrom } from './mapFrom';
