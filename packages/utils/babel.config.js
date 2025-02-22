@@ -1,1 +1,1 @@
-export { default } from '../../babel.config.js';
+export { default } from '../../babel.node.config.js';

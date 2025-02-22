@@ -12,3 +12,10 @@ export type IsMatchingPathCondition =
   | RegExp
   | ConditionConfig
   | ConditionFn;
+
+export type IsMatchingPathOptions = {
+  /**
+   * ConditionFnに渡すオプション
+   */
+  conditionOptions?: Record<string, any>;
+};

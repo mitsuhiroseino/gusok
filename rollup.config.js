@@ -1,15 +1,16 @@
 import packagejson from '@gusok/rollup-create-dist-packagejson';
-import alias from '@rollup/plugin-alias';
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import * as path from 'path';
+import CleanCSS from 'clean-css';
+import path from 'path';
+import sass from 'rollup-plugin-sass';
 
 const INPUT = './src/index.ts';
 const EXTENTIONS = ['.ts', '.tsx', '.js', '.jsx'];
-const EXTENTION_ESM = 'js';
-const EXTENTION_CJS = 'cjs';
+const EXTENTION_ESM = '.js';
+const EXTENTION_CJS = '.cjs';
 // node_modules配下のdependenciesはバンドルしない。下記の正規表現の指定をするためには'@rollup/plugin-node-resolve'が必要
 const EXTERNAL = [/[\\/]node_modules[\\/]/, /[\\/]dist[\\/]/];
 const OUTPUT = './dist';
@@ -19,44 +20,17 @@ const OUTPUT_CJS = path.join(OUTPUT, OUTPUT_CJS_DIR);
 const BABEL_CONFIG_PATH = path.resolve('babel.config.js');
 const TSCONFIG_PATH = path.resolve('tsconfig.json');
 
-// commonjs用とesmodule用のソースを出力する
-const config = [
-  // esm(.js)のビルド
-  {
-    // エントリーポイント
-    input: INPUT,
-    output: {
-      // 出力先ディレクトリ
-      dir: OUTPUT_ESM,
-      format: 'es',
-      exports: 'named',
-      sourcemap: false,
-      entryFileNames: `[name].${EXTENTION_ESM}`,
-      // バンドルしない(falseだとindex.mjsに纏められてしまう)
-      preserveModules: true,
-    },
-    external: EXTERNAL,
-    treeshake: false,
+// esmodule用とcommonjs用のソースを出力する
+const options = [
+  // esm、型定義、package.json
+  _createOptions(INPUT, OUTPUT_ESM, 'es', EXTENTION_ESM, {
+    declaration: true,
     plugins: [
-      nodeResolve(),
-      typescript({
-        tsconfig: TSCONFIG_PATH,
-        declaration: true,
-        declarationDir: OUTPUT_ESM,
-        outDir: OUTPUT_ESM,
-        rootDir: 'src',
-      }),
-      commonjs(),
-      babel({
-        extensions: EXTENTIONS,
-        babelHelpers: 'runtime',
-        configFile: BABEL_CONFIG_PATH,
-      }),
       packagejson({
         content: {
           type: 'module',
-          main: `${OUTPUT_CJS_DIR}/index.${EXTENTION_CJS}`,
-          module: `index.${EXTENTION_ESM}`,
+          main: `${OUTPUT_CJS_DIR}/index${EXTENTION_CJS}`,
+          module: `index${EXTENTION_ESM}`,
           types: 'index.d.ts',
           exports: {
             '.': {
@@ -69,28 +43,43 @@ const config = [
             },
           },
         },
-        finish: (packageJson) => {
-          const dependencies = packageJson.dependencies || {};
-          if ('lodash-es' in dependencies) {
-            dependencies.lodash = dependencies['lodash-es'];
-          }
-          return packageJson;
-        },
       }),
     ],
-  },
-  // cjs(.cjs)のビルド
-  {
+  }),
+  // cjs
+  _createOptions(INPUT, OUTPUT_CJS, 'cjs', EXTENTION_CJS),
+];
+export default options;
+
+/**
+ * オプションを作成する
+ *
+ * @param input {string} 入力ディレクトリのパス
+ * @param output {string} 出力ディレクトリのパス
+ * @param format {'cjs' | 'es'} 出力フォーマット
+ * @param extention {string} 出力ファイルの拡張子
+ * @param options { { declaration?: boolean; babelConfigPath: string; plugins?: any[] } } オプション
+ * @return
+ */
+function _createOptions(input, output, format, extention, options = {}) {
+  const {
+    declaration = false,
+    babelConfigPath = BABEL_CONFIG_PATH,
+    tsconfigPath = TSCONFIG_PATH,
+    plugins = [],
+  } = options;
+  /**  @type {import("rollup").RollupOptions} */
+  const config = {
     // エントリーポイント
-    input: INPUT,
+    input,
     output: {
       // 出力先ディレクトリ
-      dir: OUTPUT_CJS,
-      format: 'cjs',
-      exports: 'named',
+      dir: output,
+      format,
+      exports: 'auto',
       sourcemap: false,
-      entryFileNames: `[name].${EXTENTION_CJS}`,
-      // バンドルしない(falseだとindex.cjsに纏められてしまう)
+      entryFileNames: `[name]${extention}`,
+      // バンドルしない(falseだとindex.jsに纏められてしまう)
       preserveModules: true,
       interop: 'auto',
     },
@@ -98,24 +87,30 @@ const config = [
     treeshake: false,
     plugins: [
       nodeResolve(),
-      alias({
-        entries: [{ find: 'lodash-es', replacement: 'lodash' }],
-      }),
       typescript({
-        tsconfig: TSCONFIG_PATH,
-        declaration: false,
-        declarationDir: null,
+        tsconfig: tsconfigPath,
+        declaration,
+        declarationDir: declaration ? output : null,
         declarationMap: false,
-        outDir: OUTPUT_CJS,
+        outDir: output,
         rootDir: 'src',
       }),
       commonjs(),
       babel({
         extensions: EXTENTIONS,
         babelHelpers: 'runtime',
-        configFile: BABEL_CONFIG_PATH,
+        configFile: babelConfigPath,
       }),
+      sass({
+        include: ['**/*.css', '**/*.scss', '**/*.sass'],
+        insert: true,
+        api: 'modern',
+        processor(styles) {
+          return new CleanCSS().minify(styles).styles;
+        },
+      }),
+      ...plugins,
     ],
-  },
-];
-export default config;
+  };
+  return config;
+}

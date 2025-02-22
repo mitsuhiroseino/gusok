@@ -12,7 +12,7 @@
     "declarationMap": false,
     "sourceMap": false,
     "inlineSources": false,
-    "removeComments": true,
+    "removeComments": false,
     "importHelpers": true,
     "moduleResolution": "node",
     "strict": true,

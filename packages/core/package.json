@@ -1,6 +1,6 @@
 {
-  "name": "@visue/core",
-  "version": "0.2.0",
+  "name": "@gusok/core",
+  "version": "0.1.0",
   "author": "Mitsuhiro Seino",
   "license": "MIT",
   "type": "module",

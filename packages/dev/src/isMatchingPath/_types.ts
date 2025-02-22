@@ -11,8 +11,20 @@ export type ConditionConfig = {
    * - base: 拡張子付きのディレクトリ名 or ファイル名
    * - name: 拡張子を除いたディレクトリ名 or ファイル名
    * - ext: '.'を含む拡張子。拡張子が無い場合は空文字
+   * - dirpath: '/'で区切られた親ディレクトリのフルパス
+   * - base: 拡張子付きの親ディレクトリ名
+   * - name: 拡張子を除いた親ディレクトリ名
+   * - ext: '.'を含む親ディレクトリの拡張子。拡張子が無い場合は空文字
    */
-  valueType?: 'path' | 'base' | 'name' | 'ext';
+  valueType?:
+    | 'path'
+    | 'base'
+    | 'name'
+    | 'ext'
+    | 'dirpath'
+    | 'dirbase'
+    | 'dirname'
+    | 'dirext';
 
   /**
    * 検査対象の種別
@@ -36,9 +48,18 @@ export type ConditionConfig = {
 /**
  * カスタム条件関数
  */
-export type ConditionFn = (values: ConditionValues) => boolean;
+export type ConditionFn = (
+  values: ConditionValues,
+  options?: Record<string, any>,
+) => boolean;
 
 /**
  * 検証対象の値
  */
-export type ConditionValues = { path: string } & ParsedPath;
+export type ConditionValues = {
+  path: string;
+  dirpath: string;
+  dirbase: string;
+  dirname: string;
+  dirext: string;
+} & ParsedPath;

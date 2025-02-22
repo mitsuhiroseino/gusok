@@ -9,8 +9,8 @@ export default {
       {
         // esmを別の形式に変換しない
         modules: false,
-        // Browserslistのデフォルト設定(> 0.5%, last 2 versions, Firefox ESR, not dead)で変換する
-        targets: { browsers: 'defaults' },
+        // nodeの最新バージョンで実行可能な形式に変換する
+        targets: { node: 'current' },
       },
     ],
     // typescript用のpreset
