@@ -10,5 +10,5 @@ export default {
   trailingComma: 'all',
   endOfLine: 'auto',
   organizeImportsSkipDestructiveCodeActions: true,
-  plugins: ['prettier-plugin-organize-imports'],
+  plugins: ['prettier-plugin-organize-imports', 'prettier-plugin-packagejson'],
 };

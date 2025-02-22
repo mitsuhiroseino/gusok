@@ -1,16 +1,9 @@
 {
   "name": "@gusok/dev",
   "version": "0.1.0",
-  "author": "Mitsuhiro Seino",
   "license": "MIT",
+  "author": "Mitsuhiro Seino",
   "type": "module",
-  "main": "dist/cjs/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "package.json"
-  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -20,6 +13,21 @@
       "import": "./dist/",
       "require": "./dist/cjs/"
     }
+  },
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "rimraf dist && rollup --config",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "indexes": "tsx scripts/indexes.ts",
+    "organize": "prettier --write \"src/**/*.{ts,js,json}\" --config ./prettier.organize.config.js",
+    "start": "rimraf dist && rollup --config --watch",
+    "test": "jest"
   },
   "dependencies": {
     "fs-extra": "^11.2.0",
@@ -33,15 +41,6 @@
     "tsx": "^4.19.2",
     "type-fest": "^4.34.1",
     "write-pkg": "^7.0.0"
-  },
-  "scripts": {
-    "build": "rimraf dist && rollup --config",
-    "start": "rimraf dist && rollup --config --watch",
-    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
-    "organize": "prettier --write \"src/**/*.{ts,js,json}\" --config ./prettier.organize.config.js",
-    "test": "jest",
-    "indexes": "tsx scripts/indexes.ts",
-    "addExports": "tsx scripts/addExports.ts"
   },
   "packageManager": "yarn@4.6.0"
 }
